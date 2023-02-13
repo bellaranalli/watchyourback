@@ -20,7 +20,7 @@ productRouter.get('/', async (req, res) => {
         res.send(products);
     } catch (error) {
         console.log(error)
-        res.send('Errror')
+        res.send('Error')
     }
 });
 
@@ -37,9 +37,7 @@ productRouter.get('/:pid', async (req, res) => {
 productRouter.put('/:pid', async (req, res) =>{
     let pid = parseInt(req.params.pid)
     let{campo, actualizacion} = req.body
-
-    
-    
+   
     try {
         let newProduct = productManager.updateProductById(pid, campo, actualizacion);
         res.send("Producto Actualizado")
