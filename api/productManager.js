@@ -19,24 +19,20 @@ class ProductManager {
             !product.status 
         ) {
             console.log("Incompleto");
-        } else {
-            let id = this.products.length + 1;
-            product.id = id;
-            this.products.push(product);
-
-
-        }
+        } 
 
         if (!fs.existsSync(this.path)) {
+            product.id = 1
+            this.products.push(product)
             fs.writeFileSync(this.path, JSON.stringify(this.products));
         } else {
             let contenido = fs.readFileSync(this.path, 'utf-8');
             let ptos = JSON.parse(contenido);
+            this.id = ptos[ptos.length - 1].id +1;
+            product.id = this.id;
             if (ptos.some((p) => p.code === product.code)) {
                 return 'error'
             }
-            let id = ptos.length + 1;
-            product.id = id;
             ptos.push(product);
             fs.writeFileSync(this.path, JSON.stringify(ptos));
         }
