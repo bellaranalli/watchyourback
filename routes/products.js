@@ -47,7 +47,7 @@ productRouter.put('/:pid', async (req, res) =>{
 })
 
 productRouter.delete('/:pid', async (req, res) =>{
-    let pid = parseInt(req.params.id)
+    let pid = parseInt(req.params.pid)
     try {
         let deleteById = productManager.deleteProduct(pid)
         res.send("Producto eliminado")

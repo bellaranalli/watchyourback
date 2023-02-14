@@ -1,4 +1,3 @@
-//const fs = require('fs');
 import fs from 'fs';
 
 class ProductManager {
@@ -8,16 +7,16 @@ class ProductManager {
         this.id = 0;
     }
 
-    //static id = 1;
-
     addProduct = (product) => {
         if (
             !product.name ||
             !product.price ||
+            !product.category ||
             !product.code ||
             !product.description ||
             !product.thumbnail ||
-            !product.stock
+            !product.stock ||
+            !product.status 
         ) {
             console.log("Incompleto");
         } else {
@@ -34,7 +33,6 @@ class ProductManager {
             let contenido = fs.readFileSync(this.path, 'utf-8');
             let ptos = JSON.parse(contenido);
             if (ptos.some((p) => p.code === product.code)) {
-                // return 'El producto ya existe'
                 return 'error'
             }
             let id = ptos.length + 1;
@@ -84,34 +82,5 @@ class ProductManager {
         fs.writeFileSync(this.path, JSON.stringify(newProducts));
     }
 }
-
-
-// var pto = new ProductManager();
-// pto.addProduct({ name: 'ale1',price: 99, code: 'abc123', description: 'asdsadasdsad', price: 34, thumbnail: 'www.nose.com/img1', stock: 3});
-// pto.addProduct({name: 'ale2', price: 199, code: 'abc124', description: 'asdsadasdsad', price: 35, thumbnail: 'www.nose.com/img2', stock: 3});
-// pto.addProduct({ name: 'ale3',price: 99, code: 'abc125', description: 'asdsadasdsad', price: 36, thumbnail: 'www.nose.com/img3', stock: 4});
-// pto.addProduct({ name: 'ale4',price: 299, code: 'abc126', description: 'asdsadasdsad', price: 37, thumbnail: 'www.nose.com/img4', stock: 5});
-// pto.addProduct({ name: 'ale5',price: 399, code: 'abc127', description: 'asdsadasdsad', price: 38, thumbnail: 'www.nose.com/img5', stock: 6});
-// pto.addProduct({ name: 'ale6',price: 99, code: 'abc128', description: 'asdsadasdsad', price: 39, thumbnail: 'www.nose.com/img6', stock: 7});
-// pto.addProduct({ name: 'ale7',price: 99, code: 'abc129', description: 'asdsadasdsad', price: 34, thumbnail: 'www.nose.com/img7', stock: 8});
-// pto.addProduct({ name: 'ale8',price: 599, code: 'abc130', description: 'asdsadasdsad', price: 31, thumbnail: 'www.nose.com/img8', stock: 3});
-// pto.addProduct({ name: 'ale9',price: 99, code: 'abc131', description: 'asdsadasdsad', price: 234, thumbnail: 'www.nose.com/img9', stock: 4});
-// pto.addProduct({ name: 'ale10',price: 199, code: 'abc132', description: 'asdsadasdsad', price: 334, thumbnail: 'www.nose.com/img10', stock: 3});
-
-
-
-
-
-
-// console.log(pto.getProducts());
-
-//  pto.addProduct({name: 'ale3', price: 299, code: 'abc129', description: 'asdsadasdsad', price: 36, thumbnail: 'www.nose.com/img3', stock: 3});
-//  console.log(pto.getProducts());
-//pto.deleteProduct(2);
-//console.log(pto.getProducts());
-// console.log(pto.getProductById(2));
-// pto.updateProductById(2, 'price', 45);
-// console.log(pto.getProductById(2));
-//export const Product_Manager = new ProductManager("./productos.json");
 
 export default ProductManager;
