@@ -9,13 +9,6 @@ class CartManager {
         this.path = "./carts.json";
     }
 
-    async #checkDB(){
-        this.carts = JSON.parse(await fs.promises.readFile(this.path))
-      }
-      async #updateDB(){
-        await fs.promises.writeFile(this.path, JSON.stringify(this.carts))
-      }
-
     addCart = (cart) => {
         let id = this.carts.length + 1;
         cart.id = id;
@@ -54,19 +47,21 @@ class CartManager {
 
     }
 
- addProductToCart = async (cid, pid) => {
+    addProductToCart = async (cid, pid) => {
         let cart = await this.getCartById(cid);
-        let carts = await this.getAll();
-
-        let cartPosition = carts.findIndex(element => element.id == cid);
         let product = await productos.getProductById(pid);
-
-        cart.products.push(product[0]);
+        let existingProductIndex = cart.products.findIndex(p => p.product == pid);
+      
+        if (existingProductIndex != -1) {
+          cart.products[existingProductIndex].quantity += 1;
+        } else {
+          cart.products.push({product: pid, quantity: 1});
+        }
+        let carts = await this.getAll();
+        let cartPosition = carts.findIndex(element => element.id == cid);
         carts[cartPosition] = cart;
-
-        fs.writeFileSync(this.path, JSON.stringify(carts))
-
-    }
+        fs.writeFileSync(this.path, JSON.stringify(carts));
+      }
 };
 
 export default CartManager;
