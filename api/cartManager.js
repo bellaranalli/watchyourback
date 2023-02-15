@@ -50,10 +50,10 @@ class CartManager {
     addProductToCart = async (cid, pid) => {
         let cart = await this.getCartById(cid);
         let product = await productos.getProductById(pid);
-        let existingProductIndex = cart.products.findIndex(p => p.product == pid);
+        let productIndex = cart.products.findIndex(p => p.product == pid);
       
-        if (existingProductIndex != -1) {
-          cart.products[existingProductIndex].quantity += 1;
+        if (productIndex != -1) {
+          cart.products[productIndex].quantity += 1;
         } else {
           cart.products.push({product: pid, quantity: 1});
         }
