@@ -1,1 +1,1 @@
-[{"id":1,"products":[]},{"id":2,"products":["E"]}]
+[{"id":1,"products":[]},{"id":2,"products":[{"name":"Campera","description":"Jean","price":100,"category":"Indumentaria","thumbnail":"thumbnail","code":"AA","stock":5,"status":true,"id":2}]}]
