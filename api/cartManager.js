@@ -9,6 +9,13 @@ class CartManager {
         this.path = "./carts.json";
     }
 
+    async #checkDB(){
+        this.carts = JSON.parse(await fs.promises.readFile(this.path))
+      }
+      async #updateDB(){
+        await fs.promises.writeFile(this.path, JSON.stringify(this.carts))
+      }
+
     addCart = (cart) => {
         let id = this.carts.length + 1;
         cart.id = id;
@@ -43,11 +50,11 @@ class CartManager {
         let contenido = fs.readFileSync(this.path, 'utf-8');
         let carts = JSON.parse(contenido);
         let cartById = carts.filter(elemento => elemento.id == id);
-        return cartById [0];
+        return cartById[0];
 
     }
 
-    addProductToCart = async (cid, pid) => {
+ addProductToCart = async (cid, pid) => {
         let cart = await this.getCartById(cid);
         let carts = await this.getAll();
 
@@ -60,9 +67,6 @@ class CartManager {
         fs.writeFileSync(this.path, JSON.stringify(carts))
 
     }
-
 };
-
-
 
 export default CartManager;

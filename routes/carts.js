@@ -18,9 +18,9 @@ let cto = await cartManager.addProductToCart(cid, pid);
 res.send('Producto agregado')
 })
 
-cartsRouter.get('/:id', async(req,res) =>{
-    let ud = req.params.id;
-    let carts = await cartManager.getCartById(id)
+cartsRouter.get('/:cid', async(req,res) =>{
+    let cid = parseInt(req.params.cid);
+    let carts = await cartManager.getCartById(cid)
     res.send(carts)
 }
 )

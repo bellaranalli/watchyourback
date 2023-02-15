@@ -54,7 +54,7 @@ class ProductManager {
         if (prod.length > 0) {
             return prod;
         }
-        return 'Not Found';
+        return 'ERROR';
     }
 
     updateProductById = (id, campo, actualizacion) => {
