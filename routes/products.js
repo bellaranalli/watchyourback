@@ -4,6 +4,7 @@ import ProductManager from '../api/productManager.js';
 const productRouter = express.Router();
 const productManager = new ProductManager();
 
+//añado productos a mi lista
 productRouter.post('/', async (req, res) => {
     try {
         let product = req.body
@@ -14,30 +15,37 @@ productRouter.post('/', async (req, res) => {
     }
 });
 
+//muestro productos total
 productRouter.get('/', async (req, res) => {
     try {
         let products = await productManager.getProducts();
-        res.send(products);
+        console.log(products);
+        res.render('index',
+            {products} //renderizo productos del array
+        )
     } catch (error) {
         console.log(error)
         res.send('Error')
     }
+
 });
 
+//muestro productos por id
 productRouter.get('/:pid', async (req, res) => {
     let pid = parseInt(req.params.pid)
     let saveId = await productManager.getProductById(pid);
-    if (saveId){
+    if (saveId) {
         res.send(saveId)
-    }else{
+    } else {
         res.send('Producto no encontrado')
     }
 })
 
-productRouter.put('/:pid', async (req, res) =>{
+//actualizo productos por id
+productRouter.put('/:pid', async (req, res) => {
     let pid = parseInt(req.params.pid)
-    let{campo, actualizacion} = req.body
-   
+    let { campo, actualizacion } = req.body
+
     try {
         let newProduct = productManager.updateProductById(pid, campo, actualizacion);
         res.send("Producto Actualizado")
@@ -46,7 +54,8 @@ productRouter.put('/:pid', async (req, res) =>{
     }
 })
 
-productRouter.delete('/:pid', async (req, res) =>{
+//elimino productos por id
+productRouter.delete('/:pid', async (req, res) => {
     let pid = parseInt(req.params.pid)
     try {
         let deleteById = productManager.deleteProduct(pid)

@@ -1,0 +1,13 @@
+
+<!--- vista de todos los productos utilizando handlebars--->
+<h1>Productos</h1>
+{{#each products}}
+<div> 
+    <p>{{this.name}}</p>
+    <p>{{this.description}}</p>
+    <p>{{this.price}}</p>
+    <p>{{this.category}}</p>
+    <p>{{this.thumbnail}}</p>
+
+</div>
+{{/each}}
