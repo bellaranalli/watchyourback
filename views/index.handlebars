@@ -1,13 +1,14 @@
 
 <!--- vista de todos los productos utilizando handlebars--->
-<h1>Productos</h1>
-{{#each products}}
-<div> 
+<h1>Productos del carrito</h1>
+<div>
+    {{#each products}}
+<img> 
     <p>{{this.name}}</p>
     <p>{{this.description}}</p>
     <p>{{this.price}}</p>
     <p>{{this.category}}</p>
-    <p>{{this.thumbnail}}</p>
+    <img src={{thumbnail}} alt="" height="350px" width="350px"></img>
 
 </div>
 {{/each}}
