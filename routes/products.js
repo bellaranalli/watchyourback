@@ -21,7 +21,7 @@ productRouter.get('/', async (req, res) => {
         let products = await productManager.getProducts();
         console.log(products);
         res.render('index',
-            {products} //renderizo productos del array
+            {products} //renderizo productos del array para vista sin websockets
         )
     } catch (error) {
         console.log(error)
