@@ -15,19 +15,30 @@ productRouter.post('/', async (req, res) => {
     }
 });
 
-//muestro productos total
+//HANDLEBARS!! renderizo productos del array para vista sin websockets RUTA /home.handlebars
 productRouter.get('/', async (req, res) => {
     try {
         let products = await productManager.getProducts();
         console.log(products);
         res.render('index',
-            {products} //renderizo productos del array para vista sin websockets
+            {products} 
         )
     } catch (error) {
         console.log(error)
         res.send('Error')
     }
 
+});
+
+//muestro productos total
+productRouter.get('/', async (req, res) => {
+    try {
+        let products = await productManager.getProducts();
+        res.send(products);
+    } catch (error) {
+        console.log(error)
+        res.send('Error')
+    }
 });
 
 //muestro productos por id

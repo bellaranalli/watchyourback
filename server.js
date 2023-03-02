@@ -5,8 +5,8 @@ import cartsRouter from './routes/carts.js';
 import __dirname from './utils.js';
 import handlebars from 'express-handlebars';
 import { Server } from 'socket.io';
-//se instancian las dependencias
 
+//se instancian las dependencias
 const app = express();
 const PORT = 8080;
 const httpServer = app.listen(PORT, () => console.log("Running on 8080"));
@@ -23,10 +23,12 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/api/products', productRouter);
 app.use('/api/carts', cartsRouter)
+app.use('/home.handlebars', productRouter)
+
 
 app.get('/realtimeproducts', (req, res) => {
     const scripts = { socket: '/socket.io/socket.io.js', index: '/js/index.js' }
-    res.render('index2', scripts)
+    res.render('index2', scripts);
 })
 
 console.log(__dirname)
