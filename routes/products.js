@@ -30,7 +30,7 @@ productRouter.get('/', async (req, res) => {
 
 });
 
-//muestro productos total
+/*muestro productos total
 productRouter.get('/', async (req, res) => {
     try {
         let products = await productManager.getProducts();
@@ -39,7 +39,7 @@ productRouter.get('/', async (req, res) => {
         console.log(error)
         res.send('Error')
     }
-});
+});*/
 
 //muestro productos por id
 productRouter.get('/:pid', async (req, res) => {

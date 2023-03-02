@@ -21,9 +21,9 @@ app.use(express.static(__dirname + '/public'))
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use('/api/products', productRouter);
+//app.use('/api/products', productRouter); la reemplazo por /home.handlebars
 app.use('/api/carts', cartsRouter)
-app.use('/home.handlebars', productRouter)
+app.use('/home.handlebars', productRouter) //ruta con handlebars
 
 
 app.get('/realtimeproducts', (req, res) => {
