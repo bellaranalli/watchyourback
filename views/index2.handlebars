@@ -1,3 +1,14 @@
 <h1>desde websockets</h1>
+
+<div>
+    {{#each products}}
+    <p>{{this.name}}</p>
+    <p>{{this.description}}</p>
+    <p>{{this.price}}</p>
+    <p>{{this.category}}</p>
+    <img src={{thumbnail}} alt="" height="350px" width="350px"></img>
+{{/each}}
+</div>
+
 <script src="{{socket}}" ></script>
 <script src="{{index}}" ></script>

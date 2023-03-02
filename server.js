@@ -5,12 +5,14 @@ import cartsRouter from './routes/carts.js';
 import __dirname from './utils.js';
 import handlebars from 'express-handlebars';
 import { Server } from 'socket.io';
+import ProductManager from './api/productManager.js';
 
 //se instancian las dependencias
 const app = express();
 const PORT = 8080;
 const httpServer = app.listen(PORT, () => console.log("Running on 8080"));
 const socketServer = new Server(httpServer)
+const productManager = new ProductManager();
 
 app.engine('handlebars', handlebars.engine())
 app.set('views', __dirname + '/views')
@@ -28,6 +30,8 @@ app.use('/home.handlebars', productRouter) //ruta con handlebars
 
 app.get('/realtimeproducts', (req, res) => {
     const scripts = { socket: '/socket.io/socket.io.js', index: '/js/index.js' }
+    let products =  productManager.getProducts();
+        console.log(products);
     res.render('index2', scripts);
 })
 
