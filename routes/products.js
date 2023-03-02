@@ -41,14 +41,6 @@ productRouter.get('/', async (req, res) => {
     }
 });*/
 
-//VISTA CON WEBSOCKET!!
-productRouter.get('/realtimeproducts', (req, res) => {
-    const scripts = { socket: '/socket.io/socket.io.js', index: '/js/index.js' }
-    let products =  productManager.getProducts();
-        console.log(products);
-    res.render('index2', scripts);
-})
-
 
 //muestro productos por id
 productRouter.get('/:pid', async (req, res) => {

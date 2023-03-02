@@ -27,13 +27,14 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/carts', cartsRouter)
 app.use('/home.handlebars', productRouter) //ruta con handlebars
 
-
+//VISTA CON WEBSOCKET!!
 app.get('/realtimeproducts', (req, res) => {
     const scripts = { socket: '/socket.io/socket.io.js', index: '/js/index.js' }
     let products =  productManager.getProducts();
         console.log(products);
     res.render('index2', scripts);
 })
+
 
 console.log(__dirname)
 
