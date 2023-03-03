@@ -29,9 +29,9 @@ app.use('/home.handlebars', productRouter) //ruta con handlebars
 
 //VISTA CON WEBSOCKET!!
 app.get('/realtimeproducts', (req, res) => {
-    const scripts = { socket: '/socket.io/socket.io.js', index: '/js/index.js' }
-    let products =  productManager.getProducts();
-        console.log(products);
+    let products = productManager.getProducts();
+    const scripts = { socket: '/socket.io/socket.io.js', index: '/js/index.js', products }
+    console.log(products);
     res.render('index2', scripts);
 })
 
