@@ -31,7 +31,7 @@ app.use('/home.handlebars', productRouter) //ruta con handlebars
 app.get('/realtimeproducts', (req, res) => {
     let products = productManager.getProducts();
     const scripts = { socket: '/socket.io/socket.io.js', index: '/js/index.js', products }
-    console.log(products);
+    //console.log(products);
     res.render('index2', scripts);
 })
 
