@@ -1,0 +1,24 @@
+<div>
+  <h2>PRODUCTOS DEL CARRITO</h2>
+</div>
+
+<table>
+  <thead>
+    <tr>
+      <!-- SACO ID Y CODE PQ NO SERÍA DE INTERÉS PARA VISTA EN CARRITO -->
+      <th>Title</th>
+      <th>Description</th>
+      <th>Price</th>
+      <th>Category</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each cart}}
+      <tr>
+        <td>{{products}}</td>
+        <td>{{pid}}</td>
+        <td>{{quantity}}</td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>

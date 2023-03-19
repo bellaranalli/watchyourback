@@ -1,0 +1,39 @@
+  <h1>Chat</h1>
+
+  <ul id="messages">
+    {{#each message}}
+
+      <li><strong>{{this.user}}:</strong> {{this.message}}</li>
+
+    {{/each}}
+  </ul>
+
+  <form id="message-form">
+    <input type="text" id="message-input">
+    <button type="submit">Enviar</button>
+  </form>
+
+  <script src="/socket.io/socket.io.js"></script>
+
+  <script>
+    const socket = io();
+    const messageForm = document.getElementById('message-form');
+    const messageInput = document.getElementById('message-input');
+    const messageList = document.getElementById('messages');
+    // ENVÍO DE FORM
+    messageForm.addEventListener('submit', function(event) {
+      event.preventDefault();
+      const message = messageInput.value.trim();
+      if (message) {
+        // ENVÍO DE MSJ AL SRV
+        socket.emit('message', { user: '<correoDelUsuario>', message: message });
+        messageInput.value = '';
+      }
+    });
+    // MENSAJE DESDE EL SRV
+    socket.on('message', function(data) {
+      const messageItem = document.createElement('li');
+      messageItem.innerHTML = '<strong>' + data.user + ':</strong> ' + data.message;
+      messageList.appendChild(messageItem);
+    });
+  </script>

@@ -5,11 +5,11 @@ import cartsRouter from './routes/carts.js';
 import __dirname from './utils.js';
 import handlebars from 'express-handlebars';
 import { Server } from 'socket.io';
-import ProductManager from './api/productManager.js';
+import ProductManager from './dao/fileManager/productManager.js';
 
 //se instancian las dependencias
 const app = express();
-const PORT = 8080;
+//const PORT = 8080; comento este puerto para que no se pise con mongoDB, queda activo en appDB.js
 const httpServer = app.listen(PORT, () => console.log("Running on 8080"));
 const socketServer = new Server(httpServer)
 const productManager = new ProductManager();
