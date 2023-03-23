@@ -1,15 +1,18 @@
-import { Router } from "express";
-import CartsManagerDB from "../../dao/dbManager/cartManagerDB.js";
+import  express  from 'express';
 
-const cartsRouterDB = Router();
+import { uploader } from '../../utils.js'
+import CartsManagerDB from '../../dao/dbManager/cartManagerDB.js'
+
+const routerCarts = express.Router()
+routerCarts.use(express.json())
+
 const cartsMDB = new CartsManagerDB();
 
-cartsRouterDB.get("/", async (request) => {
-  let carts = await cartsMDB.getAll();
-  response.send({ status: "success", payload: carts });
-});
 
-cartsRouterDB.post("/", async (request, response) => {
+routerCarts.get('/get', (req,res)=> {cartsMDB.find(req, res)}) 
+
+
+routerCarts.post("/post", async (request, response) => {
   const { products, id } = request.body;
 
   let productToCar = { products, id };
@@ -18,4 +21,7 @@ cartsRouterDB.post("/", async (request, response) => {
   response.send({ status: "success", payload: result });
 });
 
-export default cartsRouterDB
+export default routerCarts;
+
+
+

@@ -1,5 +1,6 @@
 import express from 'express'
 import routerProducts from './routes/api/productsDB.js'
+import routerCarts from './routes/api/cartsDB.js'
 import routerViews from './routes/views/productsDB.js'
 import apiRouter from './routes/api/index.js'
 import viewsRouter from './routes/views/index.js'
@@ -29,12 +30,13 @@ app.engine('handlebars', handlebars.engine())
 app.set('view engine', 'handlebars')
 app.set('views', __dirname + '/views')
 
-app.use('/mongo', routerProducts)
+app.use('/mongop', routerProducts)
+app.use('/mongoc', routerCarts)
 app.use('/views', routerViews)
 app.use('/', viewsRouter)
 app.use('/api', apiRouter)
 
-//MUESTRA POR VISTA AUN NO TOMA LOS PRODUCTOS
+//*MUESTRA POR VISTA AUN NO TOMA LOS PRODUCTOS --en construccion--
 app.get('/', (req,res)=>{
   res.render('productosDB')
 }) 

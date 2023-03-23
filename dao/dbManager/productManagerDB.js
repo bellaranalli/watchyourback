@@ -14,7 +14,7 @@ class ProductsManagerDB {
 
   static async get(req, res) {
     const result = await ProductsModel.find()
-    res.status().json(result)
+    res.status(200).json(result)
   }
 
   static async getById(req, res) {
