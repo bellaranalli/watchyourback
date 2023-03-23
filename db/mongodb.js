@@ -9,3 +9,4 @@ export const init = async() => {
         console.log('Error:', error.message)
     }
 };
+

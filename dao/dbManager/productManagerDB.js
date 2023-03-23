@@ -3,19 +3,18 @@ import ProductsModel from '../models/productModel.js'
 class ProductsManagerDB {
 
   static async create(req, res) {
-   /*  const { body, file } = req
+   const { body, /*file*/ } = req
    const imagenProducto = {
       ...body,
-      avatar: `/static/imgs/${file.originalname}`,
-    }*/
+      //avatar: `/static/imgs/${file.originalname}`,
+    }
     const result = await ProductsModel.create(imagenProducto)
     res.status(201).json(result)
   }
 
   static async get(req, res) {
     const result = await ProductsModel.find()
-    res.status(200).json(result)
-    console.log(result)
+    res.status().json(result)
   }
 
   static async getById(req, res) {
@@ -38,7 +37,6 @@ class ProductsManagerDB {
     await ProductsModel.deleteOne({ _id: id })
     res.status(204).end()
   }
-
 
 }
 

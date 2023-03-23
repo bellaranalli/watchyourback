@@ -46,10 +46,15 @@ socketServer.on('connection', (socket) => {
     })
 })*/
 
-import http from 'http'
+
+
+// DESDE ACA PARA ABAJO ES CON MONGO PERO MIGRO A APP.JS
+
+/*/import http from 'http'
 
 import app from './app.js'
 import { init } from './socket.js'
+import routerProducts from './routes/api/productsDB.js'
 
 const PORT = process.env.PORT_NODE || 8080
 const ENV = process.env.NODE_ENV || 'local'
@@ -61,5 +66,7 @@ init(server)
 server.listen(PORT, () => {
   console.log(`Server running in http://localhost:${PORT}/ in ${ENV} environment.`)
 })
+
+server.use('/mongo', routerProducts)*/
 
 
