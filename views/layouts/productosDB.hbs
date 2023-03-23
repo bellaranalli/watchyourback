@@ -1,27 +1,23 @@
 <div>
-  <h2>LISTADO DE PRODUCTOS</h2>
+  <h2>Productos disponibles</h2>
 </div>
 
 <table>
   <thead>
     <tr>
-      <th>Id</th>
       <th>Title</th>
       <th>Description</th>
       <th>Price</th>
       <th>Category</th>
-      <th>Code</th>
     </tr>
   </thead>
   <tbody>
-    {{#each product}}
+    {{#each productos}}
       <tr>
-        <td>{{id}}</td>
         <td>{{title}}</td>
         <td>{{description}}</td>
         <td>{{price}}</td>
         <td>{{category}}</td>
-        <td>{{code}}</td>
       </tr>
     {{/each}}
   </tbody>

@@ -1,4 +1,4 @@
-import cartSchema from "../models/cart.Schema.js";
+import cartModel from "../models/cartModel.js";
 
 export default class CartsManagerDB {
   constructor() {
@@ -6,17 +6,17 @@ export default class CartsManagerDB {
   }
 
   getAll = async () => {
-    const carts = await cartSchema.find();
+    const carts = await cartModel.find();
     return carts.map((product) => user.toObject());
   };
 
   saveCart = async (cart) => {
-    let result = await cartSchema.create(cart);
+    let result = await cartModel.create(cart);
     return result;
   };
 
   updateCart = async (id) => {
-    let result = await cartSchema.updateOne({ _id: id });
+    let result = await cartModel.updateOne({ _id: id });
     return result;
   };
 }

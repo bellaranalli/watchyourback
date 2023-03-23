@@ -1,4 +1,4 @@
-//importo dependencias y rutas
+/*/importo dependencias y rutas
 import express from 'express';
 import productRouter from './routes/products.js';
 import cartsRouter from './routes/carts.js';
@@ -44,8 +44,22 @@ socketServer.on('connection', (socket) => {
     socket.on('disconnect', () => {
         console.log('Usuario desconectado')
     })
+})*/
+
+import http from 'http'
+
+import app from './app.js'
+import { init } from './socket.js'
+
+const PORT = process.env.PORT_NODE || 8080
+const ENV = process.env.NODE_ENV || 'local'
+
+const server = http.createServer(app)
+
+init(server)
+
+server.listen(PORT, () => {
+  console.log(`Server running in http://localhost:${PORT}/ in ${ENV} environment.`)
 })
-
-
 
 

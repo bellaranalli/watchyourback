@@ -1,33 +1,15 @@
-import {Router} from "express";
-import ProductManagerDB from "../../dao/dbManager/productManagerDB.js";
+import { Router } from 'express'
 
-const productRouterDB = Router();
+import { uploader } from '../../utils.js'
+import ProductsManagerDB from '../../dao/dbManager/productManagerDB.js'
 
-const productMDB = new ProductManagerDB();
+const router = Router()
 
-productRouterDB.get("/", async (request, response) => {
-  let productos = await productMDB.getAll();
-  response.send({ status: "success", payload: productos });
-});
+router
+  .get('/', ProductsManagerDB.get)
+  .post('/', uploader.single('avatar'), ProductsManagerDB.create)
+  .get('/:id', ProductsManagerDB.getById)
+  .put('/:id', ProductsManagerDB.updateById)
+  .delete('/:id', ProductsManagerDB.deleteById)
 
-productRouterDB.post("/", async (request, response) => {
-  const { title, desciption, code, price, stock, category, thumbnail, id } =
-    request.body;
-
-  let newProduct = {
-    title,
-    desciption,
-    code,
-    price,
-    stock,
-    category,
-    thumbnail,
-    id,
-  };
-
-  const result = await productMDB.saveProduct(newProduct);
-
-  response.send({ status: "success", payload: result });
-});
-
-export default productRouterDB;
+export default router
