@@ -47,7 +47,7 @@ app.get('/', (req,res)=>{
     res.render('productosDB')
   });
 
-  app.get('/totalmessages', (req, res) => {
+  app.get('/mensajes', (req, res) => {
     res.render('mensajesDB');
 })
 export default app
