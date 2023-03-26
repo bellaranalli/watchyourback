@@ -5,7 +5,6 @@ import MessageManagerDB from '../../dao/dbManager/messageManagerDB.js'
 const routerMessages = Router()
 
 //EN LAS RUTAS SIEMPRE /MONGOP/...
-//la ruta para postear en la db seria localhost:8080/mongop/post
 
 routerMessages
   //la ruta para mostrar mensajes de la db seria localhost:8080/mongom/get
