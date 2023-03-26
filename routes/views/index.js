@@ -6,6 +6,6 @@ import chatRouter from './messagesDB.js'
 const router = Router()
 
 router.use('/productos', productosRouter)
-router.use('/chat', chatRouter)
+router.use('/message', chatRouter)
 
 export default router

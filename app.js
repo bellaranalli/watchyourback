@@ -3,6 +3,7 @@ import routerProducts from './routes/api/productsDB.js'
 import routerCarts from './routes/api/cartsDB.js'
 import routerMessages from './routes/api/messagesDB.js'
 import routerViews from './routes/views/productsDB.js'
+import apiRouter from './routes/api/index.js'
 import viewsRouter from './routes/views/index.js'
 import { init } from './db/mongodb.js'
 import __dirname from './utils.js'
@@ -39,13 +40,14 @@ app.use('/mongom', routerMessages)
 
 app.use('/views', routerViews)
 app.use('/', viewsRouter)
-
+app.use('/api', apiRouter)
 
 //*MUESTRA POR VISTA AUN NO TOMA LOS PRODUCTOS --en construccion--
 app.get('/', (req,res)=>{ 
-  let products = ProductsManagerDB.get();
     res.render('productosDB')
   });
 
-
+  app.get('/totalmessages', (req, res) => {
+    res.render('mensajesDB');
+})
 export default app

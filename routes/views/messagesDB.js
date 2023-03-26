@@ -1,12 +1,12 @@
 import { Router } from 'express'
 
-import MenssageManagerDB from '../../dao/dbManager/messageManagerDB.js'
+import MessageManagerDB from '../../dao/dbManager/messageManagerDB.js'
 
-const router = Router()
+const messageRouter = Router()
 
-router.get('/', async (req, res) => {
-  const mensajes = await MenssageManagerDB.find()
-  res.render('chat', { mensajes })
+messageRouter.get('/', async (req, res) => {
+  const mensajes = await MessageManagerDB.find()
+  res.render('message', { mensajes })
 })
 
-export default router
+export default messageRouter

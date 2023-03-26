@@ -1,7 +1,7 @@
 import MensajeModel from '../models/messageModel.js'
 import { emit } from '../../socket.js'
 
-class MenssageManagerDB {
+class MessageManagerDB {
 //CREO MENSAJES
   static async create(req, res) {
     const { body } = req
@@ -38,4 +38,4 @@ class MenssageManagerDB {
 
 }
 
-export default MenssageManagerDB;
+export default MessageManagerDB;
