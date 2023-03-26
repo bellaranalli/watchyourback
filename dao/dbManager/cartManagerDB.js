@@ -95,39 +95,3 @@ class CartsManagerDB {
 export default CartsManagerDB
 
 
-
-
-
-
-
-
-
-
-
-
-/*import cartsModel from "../models/cartModel.js"
-import ProductsManagerDB from './productManagerDB.js'
-
-
-export default class CartsManagerDB {
-  constructor() {
-    
-  }
-
- getAll = async () => {
-    const result = await cartsModel.get();
-    return result;
-  };
-
-
-//SE CREA EL CARRITO localhost:8080/mongoc/post/
-  saveCart = async (cart) => {
-    let result = await cartsModel.create(cart);
-    return result;
-  };
-
-  updateCart = async (id) => {
-    let result = await cartsModel.updateOne({ _id: id });
-    return result;
-  };
-}*/

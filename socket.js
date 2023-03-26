@@ -4,7 +4,7 @@ import MensajeModel from './dao/models/messageModel.js'
 
 let io
 
-export const init = (httpServer) => {
+export const initS = (httpServer) => {
   io = new Server(httpServer)
 
   io.on('connection', async (socketClient) => {

@@ -1,8 +1,10 @@
 import mongoose from 'mongoose'
 
-const mensaje = new mongoose.Schema({
-  nombre: { type: String, require: true },
-  mail: { type: String, require: true }
+const message = new mongoose.Schema({
+  name: { type: String, require: true },
+  mail: { type: String, require: true },
+  message: { type: String, require: true }
 }, { timestamps: true })
 
-export default mongoose.model('Mensaje', mensaje)
+export default mongoose.model('Messages', message)
+
