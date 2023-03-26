@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 
 const product = new mongoose.Schema({
-  name: { type: String, require: true },
+  name: { type: String, require: true,  },
   price: { type: Number, require: true },
   category: { type: String, require: true },
   code: { type: Number, require: true, unique: true },

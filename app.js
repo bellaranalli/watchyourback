@@ -7,6 +7,8 @@ import viewsRouter from './routes/views/index.js'
 import { init } from './db/mongodb.js'
 import __dirname from './utils.js'
 import handlebars from 'express-handlebars'
+import mongoose from 'mongoose'
+import ProductsModel from './dao/models/productModel.js'
 import ProductsManagerDB from './dao/dbManager/productManagerDB.js'
 //import { init } from './socket.js'
 
@@ -32,13 +34,16 @@ app.set('views', __dirname + '/views')
 
 app.use('/mongop', routerProducts)
 app.use('/mongoc', routerCarts)
+
 app.use('/views', routerViews)
 app.use('/', viewsRouter)
 app.use('/api', apiRouter)
 
 //*MUESTRA POR VISTA AUN NO TOMA LOS PRODUCTOS --en construccion--
-app.get('/', (req,res)=>{
-  res.render('productosDB')
-}) 
+app.get('/', (req,res)=>{ 
+  let products = ProductsManagerDB.get();
+    res.render('productosDB')
+  });
+
 
 export default app

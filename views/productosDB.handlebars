@@ -1,24 +1,27 @@
 <div>
-  <h2>Productos disponibles</h2>
+  <h2>PRODUCTOS ACTUALES</h2>
 </div>
 
 <table>
   <thead>
     <tr>
-      <th>Title</th>
-      <th>Description</th>
+      <th>Name</th>
       <th>Price</th>
       <th>Category</th>
+      <th>Description</th>
+      <th>Stock</th>
     </tr>
   </thead>
   <tbody>
-    {{#each productos}}
+    {{#each products}}
       <tr>
-        <td>{{title}}</td>
-        <td>{{description}}</td>
-        <td>{{price}}</td>
-        <td>{{category}}</td>
+        <td>{{this.name}}</td>
+        <td>{{this.price}}</td>
+        <td>{{this.category}}</td>
+        <td>{{this.description}}</td>
+        <td>{{this.stock}}</td>
       </tr>
     {{/each}}
   </tbody>
 </table>
+
