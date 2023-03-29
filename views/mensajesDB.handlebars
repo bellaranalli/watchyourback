@@ -1,7 +1,7 @@
 <h1>MENSAJES</h1>
 
 <ul id="list-messages">
-  {{#each messages}}
+  {{#each message}}
     <li>
       <p><strong>{{this.name}}</strong>: {{this.mensaje}} {{this.mail}}</p>
     </li>
@@ -15,5 +15,5 @@
   <button type="submit">Enviar</button>
 </form>
 
-<script src="/socket.io/socket.io.js"></script>
-<script src="/static/javascripts/script.js"></script>
+<script src="{{socket}}" ></script>
+<script src="{{script}}"></script>

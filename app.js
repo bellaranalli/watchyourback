@@ -1,16 +1,18 @@
 import express from 'express'
+//API
 import routerProducts from './routes/api/productsDB.js'
 import routerCarts from './routes/api/cartsDB.js'
 import routerMessages from './routes/api/messagesDB.js'
-import routerViews from './routes/views/productsDB.js'
+//VISTA
+import routerVistaProducto from './routes/views/productsDB.js'
+import routerVistaMensaje from './routes/views/messagesDB.js'
+
 import apiRouter from './routes/api/index.js'
 import viewsRouter from './routes/views/index.js'
+
 import { init } from './db/mongodb.js'
 import __dirname from './utils.js'
 import handlebars from 'express-handlebars'
-import mongoose from 'mongoose'
-import ProductsModel from './dao/models/productModel.js'
-import ProductsManagerDB from './dao/dbManager/productManagerDB.js'
 import { initS } from './socket.js'
 
 const PORT = process.env.PORT_NODE || 8080
@@ -38,16 +40,10 @@ app.use('/mongop', routerProducts)
 app.use('/mongoc', routerCarts)
 app.use('/mongom', routerMessages)
 
-app.use('/views', routerViews)
-app.use('/', viewsRouter)
+//VISTAS DE NAVEGADOR
+app.use('/productos', routerVistaProducto)
+app.use('/mensajes', routerVistaMensaje)
+
+
+app.use('/views', viewsRouter)
 app.use('/api', apiRouter)
-
-//*MUESTRA POR VISTA AUN NO TOMA LOS PRODUCTOS --en construccion--
-app.get('/', (req,res)=>{ 
-    res.render('productosDB')
-  });
-
-  app.get('/mensajes', (req, res) => {
-    res.render('mensajesDB');
-})
-export default app

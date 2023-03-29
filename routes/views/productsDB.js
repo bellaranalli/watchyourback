@@ -1,14 +1,13 @@
-import  express  from 'express';
-import ProductsManagerDB from '../../dao/dbManager/productManagerDB.js'
+import { Router } from 'express'
 
-const routerViews = express.Router()
-routerViews.use(express.json())
+import productModel from '../../dao/models/productModel.js';
+const routerVistaProducto = Router()
 
-//EN LAS RUTAS SIEMPRE /VIEWS/...
-
-routerViews.get('/get', async (req, res) => {
-  const productos = await ProductsManagerDB.get()
-  res.render('productos', { productos })
+routerVistaProducto.get('/', async (req, res) => {
+  const productos = await productModel.find()
+  res.render('productosDB', { productos })
+  console.log(productos)
 })
 
-export default routerViews
+export default routerVistaProducto
+

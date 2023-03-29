@@ -1,12 +1,12 @@
+
 import { Router } from 'express'
+import messageModel from '../../dao/models/messageModel.js'
 
-import MessageManagerDB from '../../dao/dbManager/messageManagerDB.js'
+const routerVistaMensaje = Router()
 
-const messageRouter = Router()
-
-messageRouter.get('/', async (req, res) => {
-  const mensajes = await MessageManagerDB.find()
-  res.render('message', { mensajes })
+routerVistaMensaje.get('/', async (req, res) => {
+  const mensajes = await messageModel.find()
+  res.render('mensajesDB', { mensajes })
 })
 
-export default messageRouter
+export default routerVistaMensaje
