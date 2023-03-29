@@ -7,9 +7,6 @@ import routerMessages from './routes/api/messagesDB.js'
 import routerVistaProducto from './routes/views/productsDB.js'
 import routerVistaMensaje from './routes/views/messagesDB.js'
 
-import apiRouter from './routes/api/index.js'
-import viewsRouter from './routes/views/index.js'
-
 import { init } from './db/mongodb.js'
 import __dirname from './utils.js'
 import handlebars from 'express-handlebars'
@@ -44,6 +41,3 @@ app.use('/mongom', routerMessages)
 app.use('/productos', routerVistaProducto)
 app.use('/mensajes', routerVistaMensaje)
 
-
-app.use('/views', viewsRouter)
-app.use('/api', apiRouter)
