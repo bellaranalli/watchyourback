@@ -5,18 +5,21 @@
     const inputFullname= document.getElementById('input-fullname');
     const inputMessage = document.getElementById('input-message');
     const listMessages = document.getElementById('list-messages');
-  
+    const inputMail = document.getElementById('input-mail');
+ 
+
     function showMessage(data) {
       const li = document.createElement('li');
-      li.innerHTML = `<p><strong>${data.nombre}</strong>: ${data.mensaje} ${data.mail}</p>`;
+      li.innerHTML = `<p><strong>${data.name}</strong>: ${data.message} ${data.mail}</p>`;
       listMessages.appendChild(li);
     }
   
     formMessage.addEventListener('submit', (event) => {
       event.preventDefault();
       const data = {
-        nombre: inputFullname.value,
-        mensaje: inputMessage.value,
+        name: inputFullname.value,
+        message: inputMessage.value,
+        mail: inputMail.value,
       };
       socket.emit('new-message', data);
       inputMessage.value = '';
@@ -31,5 +34,6 @@
       console.log('data', data);
       showMessage(data);
     });
-  
+      
   })();
+ 

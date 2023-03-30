@@ -16,23 +16,24 @@ const PORT = process.env.PORT_NODE || 8080
 const ENV = process.env.NODE_ENV || 'local'
 
 init()
-initS()
-
 const app = express()
 
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
-app.use('/static', express.static( __dirname + '/public'))
+app.use(express.static( __dirname + '/public'))
 app.use(express.static( __dirname + '/views/layouts'))
 
-app.listen(PORT, () => {
+let httpServer = app.listen(PORT, () => {
     console.log(`Server running in http://localhost:${PORT}/ in ${ENV} environment.`)
   })
+
+initS(httpServer)
  
 app.engine('handlebars', handlebars.engine())
 app.set('view engine', 'handlebars')
 app.set('views', __dirname + '/views')
 
+//VISTAS API / THUNDER CLIENT
 app.use('/mongop', routerProducts)
 app.use('/mongoc', routerCarts)
 app.use('/mongom', routerMessages)
