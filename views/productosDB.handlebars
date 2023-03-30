@@ -1,15 +1,15 @@
 <div>
-  <h2>PRODUCTOS ACTUALES</h2>
+  <h2 class="titulo1">PRODUCTOS</h2>
 </div>
 
 <table>
   <thead>
     <tr>
-      <th>NAME</th>
-      <th>PRICE</th>
-      <th>CATEGORY</th>
-      <th>DESCRIPTION</th>
-      <th>STOCK</th>
+     <div><th>NAME</th></div>
+     <div><th>PRICE</th></div>
+     <div><th>CATEGORY</th></div>
+     <div><th>DESCRIPTION</th></div>
+     <div><th>STOCK</th></div>
     </tr>
   </thead>
   <tbody>
@@ -20,6 +20,7 @@
         <td>{{this.category}}</td>
         <td>{{this.description}}</td>
         <td>{{this.stock}}</td>
+        <td><button class="boton1">VER PRODUCTO</button></td>
       </tr>
     {{/each}}
   </tbody>
