@@ -1,5 +1,5 @@
 <div>
-  <h2 class="titulo1">PRODUCTOS</h2>
+  <h2 class="titulo1">TU CARRITO</h2>
 </div>
 
 <table>
@@ -13,16 +13,13 @@
     </tr>
   </thead>
   <tbody>
-    {{#each productos}}
+    {{#each cart}}
       <tr>
         <td>{{this.name}}</td>
         <td>{{this.price}}</td>
         <td>{{this.category}}</td>
         <td>{{this.description}}</td>
-        <td>{{this.stock}}</td>
-        <td><button class="boton1">AGREGAR PRODUCTO</button></td>
       </tr>
     {{/each}}
   </tbody>
 </table>
-

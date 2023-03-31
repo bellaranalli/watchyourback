@@ -6,6 +6,7 @@ import routerMessages from './routes/api/messagesDB.js'
 //VISTA
 import routerVistaProducto from './routes/views/productsDB.js'
 import routerVistaMensaje from './routes/views/messagesDB.js'
+import routerVistaCartID from './routes/views/cartsDB.js'
 
 import { init } from './db/mongodb.js'
 import __dirname from './utils.js'
@@ -41,4 +42,5 @@ app.use('/mongom', routerMessages)
 //VISTAS DE NAVEGADOR
 app.use('/productos', routerVistaProducto)
 app.use('/mensajes', routerVistaMensaje)
+app.use('/carrito', routerVistaCartID)
 
