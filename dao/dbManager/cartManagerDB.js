@@ -3,7 +3,7 @@ import cartsModel from "../models/cartModel.js";
 
 
 class CartsManagerDB {
-  //CREO EL CARRITO
+//CREO EL CARRITO
   static async createCarts(req, res) {
     const { body } = req
     const result = await cartsModel.create(body)
@@ -47,7 +47,7 @@ class CartsManagerDB {
       return res.status(500).json({ message: "SERVER ERROR" });
     }
   }
-//ELIMINO UN PRODUCTO EN UN CARRITO EN ESPECIFICO: PASA POR BODY SOLO EL PID Y CID
+//ELIMINO UN PRODUCTO EN UN CARRITO EN ESPECIFICO: PASA POR BODY(THUNDER CLIENT) SOLO EL PID Y CID
   static async removeProductFromCart(req, res) {
     const { pid, cid } = req.body;
 
