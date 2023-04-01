@@ -5,30 +5,22 @@
 <table>
   <thead>
     <tr>
-      <div>
-        <th>NAME</th>
-      </div>
-      <div>
-        <th>PRICE</th>
-      </div>
-      <div>
-        <th>CATEGORY</th>
-      </div>
-      <div>
-        <th>DESCRIPTION</th>
-      </div>
+      <th>NAME</th>
+      <th>PRICE</th>
+      <th>CATEGORY</th>
+      <th>DESCRIPTION</th>
+      <th>QUANTITY</th>
     </tr>
   </thead>
   <tbody>
-    {{#each cart}}
-    {{#each this.products}}
-    <tr>
-      <td>{{this.product.name}}</td>
-      <td>{{this.product.price}}</td>
-      <td>{{this.product.category}}</td>
-      <td>{{this.product.description}}</td>
-    </tr>
-    {{/each}}
+    {{#each cart.products}}
+      <tr>
+        <td>{{this.product.name}}</td>
+        <td>{{this.product.price}}</td>
+        <td>{{this.product.category}}</td>
+        <td>{{this.product.description}}</td>
+        <td>{{this.quantity}}</td>
+      </tr>
     {{/each}}
   </tbody>
 </table>
