@@ -1,26 +1,26 @@
 import { Router } from 'express'
 
-import cartsModel from '../../dao/models/cartModel.js'
+import cartModel from '../../dao/models/cartModel.js'
 const routerVistaCartID = Router()
 
 routerVistaCartID.get('/:id', async (req, res) => {
-  const cart = await cartsModel.find().lean()
-  //res.render('cartsDB', { cart: carrito })
- // console.log(carrito)
+  try {
+    const { id } = req.params;
 
-  let id = req.params.id;
+    const cart = await cartModel.findById({ _id: id }).lean();
 
-  let newFilter = cart.filter( (cart) => {
-   // console.log(cart._id.toString() === id)
-    return cart._id.toString() === id; 
+    if (!cart) {
+      throw new Error(`CART ${id} NOT FOUND`);
+    }
 
-});
+    res.render('cartsDB', { cart : cart});
+    console.log(cart)
 
-console.log(JSON.stringify(newFilter))
-
-let scripts = { cart: newFilter};
-
-res.render("cartsDB", scripts);
+  } catch (error) {
+    console.error(error);
+    res.status(400).send(error.message);
+  }
+ 
 
 
 })

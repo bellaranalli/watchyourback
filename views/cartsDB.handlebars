@@ -1,24 +1,34 @@
 <div>
-  <h2 class="titulo1">TU CARRITO</h2>
+  <h2>TU CARRITO</h2>
 </div>
 
 <table>
   <thead>
     <tr>
-     <div><th>NAME</th></div>
-     <div><th>PRICE</th></div>
-     <div><th>CATEGORY</th></div>
-     <div><th>DESCRIPTION</th></div>
+      <div>
+        <th>NAME</th>
+      </div>
+      <div>
+        <th>PRICE</th>
+      </div>
+      <div>
+        <th>CATEGORY</th>
+      </div>
+      <div>
+        <th>DESCRIPTION</th>
+      </div>
     </tr>
   </thead>
   <tbody>
     {{#each cart}}
-      <tr>
-        <td>{{this.name}}</td>
-        <td>{{this.price}}</td>
-        <td>{{this.category}}</td>
-        <td>{{this.description}}</td>
-      </tr>
+    {{#each this.products}}
+    <tr>
+      <td>{{this.product.name}}</td>
+      <td>{{this.product.price}}</td>
+      <td>{{this.product.category}}</td>
+      <td>{{this.product.description}}</td>
+    </tr>
+    {{/each}}
     {{/each}}
   </tbody>
 </table>

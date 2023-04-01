@@ -23,4 +23,10 @@ routerProducts.put('/get/:id', (req,res)=> {ProductsManagerDB.updateById(req, re
 //la ruta para eliminar por ID en la db seria localhost:8080/mongop/get/:id
 routerProducts.delete('/get/:id', (req,res)=> {ProductsManagerDB.deleteById(req, res)}) 
 
+//la ruta para llamar por categoria en la db seria localhost:8080/mongop/get/:id
+routerProducts.get('/:category', (req,res) => {ProductsManagerDB.filtroCategory(req, res)})
+
+//la ruta para llamar por PAGINATE en la db seria localhost:8080/mongop/get/:id
+routerProducts.get('/:query', (req,res) => {ProductsManagerDB.paginate(req, res)})
+
 export default routerProducts;

@@ -8,5 +8,13 @@ routerVistaProducto.get('/', async (req, res) => {
   res.render('productosDB', { productos: productos })
 })
 
+routerVistaProducto.get('/:category', async (req, res) => {
+  const productos = await productModel.find().lean()
+  res.render('productosDB', { productos: productos })
+})
+
+
 export default routerVistaProducto
+
+
 

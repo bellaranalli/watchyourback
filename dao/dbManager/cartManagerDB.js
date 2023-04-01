@@ -18,7 +18,7 @@ class CartsManagerDB {
     const { params: { cid } } = req
     const result = await cartsModel.findById(cid).populate('products.product')
     if (!result) {
-      return res.status(404).end()
+      return res.status(404).send("CART NOT FOUND")
     }
     res.status(200).json(result)
   }
