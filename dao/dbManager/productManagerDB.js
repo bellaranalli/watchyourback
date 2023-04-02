@@ -1,4 +1,5 @@
 import ProductsModel from '../models/productModel.js'
+import communsUtils from '../../communs.js'
 
 class ProductsManagerDB {
 
@@ -56,16 +57,16 @@ class ProductsManagerDB {
     res.status(200).json(result)
   }
   //FILTRO POR LIMITE Y PAGINA (no funciona)
-  static async paginate(req, res) {
-    const { query: { limit = 1, page = 1 } } = req;
-    const options = {
-      limit,
-      page
+  static async paginate(req,res){
+    const {query: {limit=1, page=1}} = req;
+    const options ={
+        limit,
+        page
     }
-    const result = await ProductsModel.paginate({}, options);
-    res.status(200).json(result)
-
-  }
+    const result = await ProductsModel.paginate({},options);
+    res.status(200).json(communsUtils.busResponds(result))
+    
+}
 
 }
 

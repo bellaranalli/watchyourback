@@ -11,22 +11,22 @@ routerProducts.use(express.json())
 //la ruta para postear en la db seria localhost:8080/mongop/post
 routerProducts.post('/post', (req,res)=> {ProductsManagerDB.create(req, res)}) 
 
-//la ruta para llamar a todos los productos en la db seria localhost:8080/mongop/get
+//la ruta para llamar a todos los productos en la db sería localhost:8080/mongop/get
 routerProducts.get('/get', (req,res)=> {ProductsManagerDB.get(req, res)}) 
 
-//la ruta para llamar por ID en la db seria localhost:8080/mongop/get/:id
+//la ruta para llamar por ID en la db sería localhost:8080/mongop/get/:id
 routerProducts.get('/get/:id', (req,res)=> {ProductsManagerDB.getById(req, res)}) 
 
-//la ruta para modificar por ID en la db seria localhost:8080/mongop/get/:id
+//la ruta para modificar por ID en la db sería localhost:8080/mongop/get/:id
 routerProducts.put('/get/:id', (req,res)=> {ProductsManagerDB.updateById(req, res)}) 
 
-//la ruta para eliminar por ID en la db seria localhost:8080/mongop/get/:id
+//la ruta para eliminar por ID en la db sería localhost:8080/mongop/get/:id
 routerProducts.delete('/get/:id', (req,res)=> {ProductsManagerDB.deleteById(req, res)}) 
 
-//la ruta para llamar por categoria en la db seria localhost:8080/mongop/get/:id
+//la ruta para llamar por categoria en la db sería localhost:8080/mongop/get/:category
 routerProducts.get('/:category', (req,res) => {ProductsManagerDB.filtroCategory(req, res)})
 
-//la ruta para llamar por PAGINATE en la db seria localhost:8080/mongop/get/:id
-routerProducts.get('/:query', (req,res) => {ProductsManagerDB.paginate(req, res)})
+//la ruta para llamar por PAGINATE en la db sería localhost:8080/mongop?limit=2&page=1 (limit=num que yo quiera page=num que yo quiera, por defecto toma 1 y 1)
+routerProducts.get('/', (req,res) => {ProductsManagerDB.paginate(req, res)})
 
 export default routerProducts;

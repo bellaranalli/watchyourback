@@ -3,6 +3,8 @@ import { Router } from 'express'
 import cartModel from '../../dao/models/cartModel.js'
 const routerVistaCartID = Router()
 
+
+//la ruta para llamar a un carrito con sus productos sería localhost:8080/carrito/:cid
 routerVistaCartID.get('/:id', async (req, res) => {
   try {
     const { id } = req.params;
@@ -14,7 +16,7 @@ routerVistaCartID.get('/:id', async (req, res) => {
     }
 
     res.render('cartsDB', { cart });
-    console.log(JSON.stringify(cart, null, 2));
+    //console.log(JSON.stringify(cart, null, 2));
 
   } catch (error) {
     console.error(error);

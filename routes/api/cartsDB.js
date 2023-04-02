@@ -20,10 +20,12 @@ routerCarts
 //la ruta para mostrar los carritos de la db por id seria localhost:8080/mongoc/get/carts/:cid
 .get('/get/carts/:cid', (req,res) => {CartsManagerDB.getCartById(req, res)} )
 
-//la ruta para agregar un producto a un carrito de la db por id seria localhost:8080/mongoc/post/carts/:cid
+//la ruta para agregar un producto a un carrito de la db por id seria localhost:8080/mongoc/post/carts/:cid   
+//(paso por body { "pid": " ", "cid": " "} )
 .post('/post/carts/:cid', (req,res) => {CartsManagerDB.addProductToCart(req, res)} )
 
 //la ruta para borrar un producto de un carrito de la db por id seria localhost:8080/mongoc/put/carts/:cid
+//(paso por body { "pid": " ", "cid": " "} )
 .put('/put/carts/:cid', (req,res) => {CartsManagerDB.removeProductFromCart(req, res)} )
 
 //la ruta para eliminar un carrito de la db por id seria localhost:8080/mongoc/delete/carts/:cid
