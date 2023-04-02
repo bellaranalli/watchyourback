@@ -1,5 +1,5 @@
 import ProductsModel from '../models/productModel.js'
-import communsUtils from '../../communs.js'
+import commonsUtils from '../../commons.js'
 
 class ProductsManagerDB {
 
@@ -56,15 +56,18 @@ class ProductsManagerDB {
     )
     res.status(200).json(result)
   }
-  //FILTRO POR LIMITE Y PAGINA (no funciona)
-  static async paginate(req,res){
-    const {query: {limit=1, page=1}} = req;
+  //FILTRO POR LIMITE, PAGINA, SORT
+ static async paginate(req,res){
+    const {query: {limit=1, page=1, sort}} = req;
     const options ={
         limit,
         page
     }
+    if(sort){
+      options.sort = {price: sort}
+    }
     const result = await ProductsModel.paginate({},options);
-    res.status(200).json(communsUtils.busResponds(result))
+    res.status(200).json(commonsUtils.busResponds(result))
     
 }
 
