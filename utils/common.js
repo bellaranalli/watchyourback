@@ -13,8 +13,8 @@ class commonsUtils{
             page: data.page,
             hasPrevPage: data.hasPrevPage,
             hasNextPage: data.hasNextPage,
-            prevLink: !data.hasPrevPage ? null : `http://localhost:8080/mongop?limit=${data.limit}&page=${data.prevPage}${paramSort}`,
-            nextLink: !data.hasNextPage ? null : `http://localhost:8080/mongop?limit=${data.limit}&page=${data.nextPage}${paramSort}`,
+            prevLink: !data.hasPrevPage ? null : `http://localhost:8080/productos?limit=${data.limit}&page=${data.prevPage}${paramSort}`,
+            nextLink: !data.hasNextPage ? null : `http://localhost:8080/productos?limit=${data.limit}&page=${data.nextPage}${paramSort}`,
         }
     }
 }

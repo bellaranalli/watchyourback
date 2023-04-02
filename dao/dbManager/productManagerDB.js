@@ -1,5 +1,5 @@
 import ProductsModel from '../models/productModel.js'
-import commonsUtils from '../../commons.js'
+import commonsUtils from '../../utils/commons.js'
 
 class ProductsManagerDB {
 

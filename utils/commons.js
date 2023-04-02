@@ -1,30 +1,22 @@
-import config from "../config/index.js"
-
-export default class CommonsUtils {
-  static buildResult(opts) {
-    const {
-      docs,
-      limit,
-      totalPages,
-      page,
-      hasPrevPage,
-      hasNextPage,
-      prevPage,
-      nextPage,
-      sort,
-    } = opts
-    return {
-      status: 'success',
-      payload: docs,
-      totalPages,
-      prevPage,
-      nextPage,
-      page,
-      hasPrevPage,
-      hasNextPage,
-      prevLink: !hasPrevPage ? null : `${config.baseUrl}/productos?page=${prevPage}&limit=${limit}${sort ? `&sort=${sort}` : ''}`,
-      nextLink: !hasNextPage ? null : `${config.baseUrl}/productos?page=${nextPage}&limit=${limit}${sort ? `&sort=${sort}` : ''}`,
-      sort,
-      sortLink: `${config.baseUrl}/productos?page=${page}&limit=${limit}&sort=${sort === 'asc' ? 'desc' : 'asc'}`
+class commonsUtils{
+    static busResponds(data){
+        let paramSort = ""
+        if (data.sort){
+            paramSort = `&sort=${data.sort}`
+        }
+        return{
+            status:"success",
+            payload: data.docs,
+            totalPages: data.totalPages,
+            prevPage: data.prevPage,
+            nextPage: data.nextPage,
+            page: data.page,
+            hasPrevPage: data.hasPrevPage,
+            hasNextPage: data.hasNextPage,
+            prevLink: !data.hasPrevPage ? null : `http://localhost:8080/mongop?limit=${data.limit}&page=${data.prevPage}${paramSort}`,
+            nextLink: !data.hasNextPage ? null : `http://localhost:8080/mongop?limit=${data.limit}&page=${data.nextPage}${paramSort}`,
+        }
     }
-  }}
+}
+
+export default commonsUtils

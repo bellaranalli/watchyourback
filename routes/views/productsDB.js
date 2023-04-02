@@ -1,7 +1,7 @@
 import { Router } from 'express'
 
 import productModel from '../../dao/models/productModel.js';
-import commonsUtils from '../../commons.js';
+import commonsUtils from '../../utils/common.js';
 const routerVistaProducto = Router()
 
 //la ruta para llamar a todos los productos sería localhost:8080/productos/total
@@ -19,7 +19,7 @@ routerVistaProducto.get('/:category', async (req, res) => {
 
 //la ruta para llamar por PAGINATE en la db sería localhost:8080/productos?limit=2&page=1&sort=asc (o bien por defecto localhost:8080/productos/)
 routerVistaProducto.get('/', async (req, res) => {
-  const { query: { limit = 3, page = 1, sort } } = req;
+  const { query: { limit = 2, page = 1, sort } } = req;
   const options = {
     limit,
     page
