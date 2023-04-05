@@ -20,7 +20,7 @@ routerVistaProducto.get('/:category', async (req, res) => {
 
 //la ruta para llamar por PAGINATE en la db sería localhost:8080/productos?limit=2&page=1&sort=asc (o bien por defecto localhost:8080/productos/)
 routerVistaProducto.get('/', async (req, res) => {
-  const { query: { limit = 2, page = 1, sort } } = req;
+  const { query: { limit = 5, page = 1, sort } } = req;
   const options = {
     limit,
     page
@@ -28,20 +28,12 @@ routerVistaProducto.get('/', async (req, res) => {
   if (sort) {
     options.sort = { price: sort }
   }
-  const productos = await productModel.paginate({}, options);
-  const productosJson = {
-    products: productos.docs.map(data => {
-      return {
-          name: data.name,
-          price: data.price,
-          category: data.category,
-          description: data.description,
-          stock: data.stock
-      }
-  })}
-  //console.log(productos)
-  res.render('productosPartialsDB', {productosJson});
-});
+  const productos = await productModel.paginate({}, options)
+     console.log(productos)
+      res.render('productosPartialsDB', (commonsUtils.busResponds(productos)));
+  })
+
+;
 
 
 export default routerVistaProducto

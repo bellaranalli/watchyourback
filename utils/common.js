@@ -1,12 +1,12 @@
-class commonsUtils{
-    static busResponds(data){
+class commonsUtils {
+    static busResponds(data) {
         let paramSort = ""
-        if (data.sort){
+        if (data.sort) {
             paramSort = `&sort=${data.sort}`
         }
-        return{
-            status:"success",
-            payload: data.docs,
+        return {
+            status: "success",
+            payload: JSON.parse(JSON.stringify(data.docs)),
             totalPages: data.totalPages,
             prevPage: data.prevPage,
             nextPage: data.nextPage,
