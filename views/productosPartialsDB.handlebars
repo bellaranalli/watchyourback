@@ -5,21 +5,22 @@
 <table>
   <thead>
     <tr>
-     <div><th>NAME</th></div>
-     <div><th>PRICE</th></div>
-     <div><th>CATEGORY</th></div>
-     <div><th>DESCRIPTION</th></div>
-     <div><th>STOCK</th></div>
+      <th>NAME</th>
+      <th>PRICE</th>
+      <th>CATEGORY</th>
+      <th>DESCRIPTION</th>
+      <th>STOCK</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
-    {{#each payload}}
-      <tr>
-        <td>{{this.name}}</td>
-        <td>{{this.price}}</td>
-        <td>{{this.category}}</td>
-        <td>{{this.description}}</td>
-        <td>{{this.stock}}</td>
+       {{#each productosJson.products}}
+        <tr>
+          <td>{{this.name}}</td>
+          <td>{{this.price}}</td>
+          <td>{{this.category}}</td>
+          <td>{{this.description}}</td>
+          <td>{{this.stock}}</td>
         <td><button class="boton1">AGREGAR PRODUCTO</button></td>
       </tr>
     {{/each}}
