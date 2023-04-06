@@ -8,7 +8,7 @@ const routerVistaProducto = Router()
 routerVistaProducto.get('/total', async (req, res) => {
   const productos = await productModel.find().lean()
   res.render('productosDB', { productos: productos })
- // console.log(productos)
+  // console.log(productos)
 })
 
 //la ruta para llamar a todos los productos por categoría sería localhost:8080/productos/:category
@@ -29,13 +29,10 @@ routerVistaProducto.get('/', async (req, res) => {
     options.sort = { price: sort }
   }
   const productos = await productModel.paginate({}, options)
-     console.log(productos)
-      res.render('productosPartialsDB', (commonsUtils.busResponds(productos)));
-  })
-
-;
-
-
+  //console.log(productos)
+  res.render('productosPartialsDB', (commonsUtils.busResponds(productos)));
+})
+  ;
 export default routerVistaProducto
 
 

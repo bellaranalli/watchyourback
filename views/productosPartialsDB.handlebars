@@ -10,12 +10,13 @@
       <th>CATEGORY</th>
       <th>DESCRIPTION</th>
       <th>STOCK</th>
-      <th></th>
+      <th><a href="{{sortButtom}}"  role="button" class="boton1">ORDENAR</a></th>
     </tr>
   </thead>
   <tbody>
        {{#each payload}}
         <tr>
+          
             <td>{{this.name}}</td>
             <td>{{this.price}}</td>
             <td>{{this.category}}</td>
