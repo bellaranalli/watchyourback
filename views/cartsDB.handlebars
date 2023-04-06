@@ -1,5 +1,5 @@
 <div>
-  <h2>TU CARRITO</h2>
+  <h2 class="titulo1">TU CARRITO</h2>
 </div>
 
 <table>
@@ -13,7 +13,7 @@
     </tr>
   </thead>
   <tbody>
-    {{#each products}}
+    {{#each cart.products}}
       <tr>
         <td>{{this.product.name}}</td>
         <td>{{this.product.price}}</td>

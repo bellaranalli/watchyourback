@@ -67,7 +67,7 @@ class CartsManagerDB {
         await cart.save();
         return res.status(200).json(cart);
       } else {
-        return res.status(404).json({ message: "PRODUCT NOT FOUND" });
+        return res.status(404).json({ message: "CART NOT FOUND" });
       }
     } catch (error) {
       console.log(error);

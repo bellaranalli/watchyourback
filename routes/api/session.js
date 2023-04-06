@@ -17,17 +17,17 @@ router.post('/login', async (req, res) => {
     !email ||
     !password
   ) {
-    return res.render('login', { error: 'Todo los campos debe venir en la solicitud.' })
+    return res.render('login', { error: 'Completar los campos solicitados' })
   }
 
   const user = await userModel.findOne({ email })
 
   if (!user) {
-    return res.render('login', { error: 'Email o password invalido.' })
+    return res.render('login', { error: 'Email o password no válido' })
   }
 
   if (user.password !== password) {
-    return res.render('login', { error: 'Email o password invalido.' })
+    return res.render('login', { error: 'Email o password no válido' })
   }
 
   req.session.user = user
@@ -53,7 +53,7 @@ router.post('/register', async (req, res) => {
     !age ||
     !password
   ) {
-    return res.render('register', { error: 'Todo los campos debe venir en la solicitud.' })
+    return res.render('register', { error: 'Completar los campos solicitados' })
   }
   try {
     const user = await userModel.create({
