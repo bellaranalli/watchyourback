@@ -30,10 +30,13 @@ router.post('/login', async (req, res) => {
     return res.render('login', { error: 'Email o password no válido' })
   }
 
-  req.session.user = {
-    ...user.toObject(),
-    role: user.email === 'adminCoder@coder.com' ? 'admin' : 'usuario',
-  };
+  req.session.user = user
+
+  // Si el usuario es un administrador, actualizar su rol a "admin"
+  if (user.email === 'adminCoder@coder.com' && user.password === 'adminCod3r123') {
+    user.role = 'admin'
+    await user.save()
+  }
 
   res.redirect('/profile')
 })
@@ -65,7 +68,6 @@ router.post('/register', async (req, res) => {
       email,
       age,
       password,
-      role: 'usuario',
     })
 
     console.log('new user', user)
