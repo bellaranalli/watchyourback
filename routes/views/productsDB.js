@@ -32,7 +32,7 @@ routerVistaProducto.get('/', async (req, res) => {
   //console.log(productos)
   res.render('productosPartialsDB', (commonsUtils.busResponds(productos)));
 })
-  ;
+  
 export default routerVistaProducto
 
 

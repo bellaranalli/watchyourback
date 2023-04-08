@@ -30,7 +30,10 @@ router.post('/login', async (req, res) => {
     return res.render('login', { error: 'Email o password no válido' })
   }
 
-  req.session.user = user
+  req.session.user = {
+    ...user.toObject(),
+    role: user.email === 'adminCoder@coder.com' ? 'admin' : 'usuario',
+  };
 
   res.redirect('/profile')
 })
@@ -62,6 +65,7 @@ router.post('/register', async (req, res) => {
       email,
       age,
       password,
+      role: 'usuario',
     })
 
     console.log('new user', user)
