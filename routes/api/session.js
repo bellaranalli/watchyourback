@@ -32,7 +32,6 @@ router.post('/login', async (req, res) => {
 
   req.session.user = user
 
-  // Si el usuario es un administrador, actualizar su rol a "admin"
   if (user.email === 'adminCoder@coder.com' && user.password === 'adminCod3r123') {
     user.role = 'admin'
     await user.save()
