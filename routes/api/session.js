@@ -37,7 +37,7 @@ router.post('/login', async (req, res) => {
     await user.save()
   }
 
-  res.redirect('/profile')
+  res.redirect('/productos')
 })
 
 router.post('/register', async (req, res) => {

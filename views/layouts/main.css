@@ -1,12 +1,14 @@
-.titulo1{
+.titulo1 {
     text-align: center;
     text-shadow: rgba(255, 255, 255, 0.459) 1.5px 1.5px;
 }
 
-.boton1{
+.boton1 {
     background-color: rgb(0, 0, 0);
 }
+
 .boton1:hover {
     background-color: white;
     color: #000000;
-  }
+}
+

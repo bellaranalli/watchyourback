@@ -58,14 +58,14 @@ class ProductsManagerDB {
   }
   //FILTRO POR LIMITE, PAGINA, SORT
  static async paginate(req,res){
-    const {query: {limit=1, page=1, sort}} = req;
-    const options ={
-        limit,
-        page
-    }
-    if(sort){
-      options.sort = {price: sort}
-    }
+  const {query: {limit=1, page=1, sort}} = req;
+  const options ={
+      limit,
+      page
+  }
+  if(sort){
+    options.sort = {price: sort}
+  }
     const result = await ProductsModel.paginate({},options);
     res.status(200).json(commonsUtils.busResponds(result))
     
