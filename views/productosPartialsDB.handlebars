@@ -5,6 +5,7 @@
 <table>
   <thead>
     <tr>
+      <p class="perfil">Ir a <a href="/profile">Mi Perfil</a></p>
       <th>NAME</th>
       <th>PRICE</th>
       <th>CATEGORY</th>
@@ -16,8 +17,7 @@
   </thead>
   <tbody>
        {{#each payload}}
-        <tr>
-          
+        <tr>         
             <td>{{this.name}}</td>
             <td>{{this.price}}</td>
             <td>{{this.category}}</td>
