@@ -49,24 +49,23 @@ const initPassport = () => {
     }
   }))
 
-  passport.use('login', new LocalStrategy({ usernameField: 'email' }, async (email, password, done) => {
+ passport.use('login', new LocalStrategy({ usernameField: 'email', passwordField: 'password' }, async (email, password, done) => {
+  try {
+    const user = await userModel.findOne({ email })
 
-    try {
-      const user = await userModel.findOne({ email })
-  
-      if (!user) {
-        return done(null, false)
-      }
-    
-      if (!validatePassword(password, user)) {
-        return done(null, false)
-      }
-    
-      done(null, user)
-    } catch (error) {
-      return done(new Error('Error al obtener el usuario:', error.message))
+    if (!user) {
+      return done(null, false, { message: 'Usuario no encontrado' })
     }
-  }))
+
+    if (!validatePassword(password, user)) {
+      return done(null, false, { message: 'Contraseña incorrecta' })
+    }
+
+    done(null, user)
+  } catch (error) {
+    return done(error, false, { message: 'Error al obtener el usuario' })
+  }
+}))
 
   passport.serializeUser((user, done) => {
     done(null, user._id)

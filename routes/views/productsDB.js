@@ -20,7 +20,7 @@ routerVistaProducto.get('/:category', async (req, res) => {
 
 //la ruta para llamar por PAGINATE en la db sería localhost:8080/productos?limit=2&page=1&sort=asc (o bien por defecto localhost:8080/productos/)
 routerVistaProducto.get('/', async (req, res) => {
-  const { query: { limit = 5, page = 1, sort } } = req;
+  const { query: { limit = 5, page = 1, sort = 'asc' } } = req;
   const options = {
     limit,
     page
