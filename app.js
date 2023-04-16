@@ -17,7 +17,9 @@ import cookieParser from 'cookie-parser'
 import expressSession from 'express-session';
 import MongoStore from 'connect-mongo';
 import router from './routes/index.js'
-
+//PASSPORT
+import passport from 'passport'
+import initPassport from './config/passport.config.js'
 
 const PORT = process.env.PORT_NODE || 8080
 const ENV = process.env.NODE_ENV || 'local'
@@ -52,6 +54,11 @@ app.use(expressSession({
   resave: false,
   saveUninitialized: false,
 }))
+
+initPassport()
+
+app.use(passport.initialize())
+app.use(passport.session())
 
 //VISTAS API / THUNDER CLIENT
 app.use('/mongop', routerProducts)

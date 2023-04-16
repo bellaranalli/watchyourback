@@ -1,11 +1,12 @@
 <article>
   <h1 class="titulo1">LOGIN</h1>
-  {{#if error }}
-    <p>{{error}}</p>
-  {{/if}}
+  {{#if flash.error}}
+  <div class="alert alert-danger">{{flash.error}}</div>
+{{/if}}
   <form action="/api/sessions/login" method="POST">
     <input type="text" name="email" placeholder="Correo">
     <input type="password"  name="password" placeholder="Contraseña">
+    <p><a href="/reset-password">Restaurar contraseña</a></p>
     <p>Quiero <a href="/register">registrarme</a></p>
     <button type="submit" class="boton1">Entrar</button>
   </form>
