@@ -63,6 +63,11 @@ router.post('/reset-password', async (req, res) => {
   res.redirect('/login')
 })
 
+router.get('/github/callback', passport.authenticate('github', { failureRedirect: '/login' }), (req, res) => {
+  req.session.user = req.user
+  res.redirect('/profile')
+});
+
 export default router
 
 
