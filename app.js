@@ -25,7 +25,7 @@ config();
 
 const PORT = process.env.PORT_NODE || 8080
 const ENV = process.env.NODE_ENV || 'local'
-const URL = process.env.NODE_URI || "mongodb+srv://BellaDev:aNabella1702@cluster0.rvjajgv.mongodb.net/ecommerce?retryWrites=true&w=majority"
+const URL = process.env.NODE_URI  
 
 init()
 const app = express()
