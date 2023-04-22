@@ -12,9 +12,9 @@ const initPassport = () => {
   }
 
   const githubOptions = {
-    clientID: 'Iv1.3b1e8e9105426668',
-    clientSecret: '53c3a6d4886763862808e8ef1fe5c8cd461c5725',
-    callbackURL: 'http://localhost:8080/api/sessions/github/callback',
+    clientID: process.env.GITHUB_CLIENT_ID,
+    clientSecret: process.env.GITHUB_CLIENT_SECRET,
+    callbackURL: process.env.GITHUB_CALLBACK,
   }
 
   passport.use('register', new LocalStrategy(options, async (req, email, password, done) => {

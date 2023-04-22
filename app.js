@@ -20,6 +20,8 @@ import router from './routes/index.js'
 //PASSPORT
 import passport from 'passport'
 import initPassport from './config/passport.config.js'
+import { config } from 'dotenv';
+config();
 
 const PORT = process.env.PORT_NODE || 8080
 const ENV = process.env.NODE_ENV || 'local'
