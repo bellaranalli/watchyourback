@@ -20,11 +20,12 @@ import router from './routes/index.js'
 //PASSPORT
 import passport from 'passport'
 import initPassport from './config/passport.config.js'
+
 import { config } from 'dotenv';
 config();
 
-const PORT = process.env.PORT_NODE || 8080
-const ENV = process.env.NODE_ENV || 'local'
+const PORT = process.env.PORT_NODE 
+const ENV = process.env.NODE_ENV 
 const URL = process.env.NODE_URI  
 
 init()
@@ -50,7 +51,7 @@ app.use(expressSession({
   store: MongoStore.create({
     mongoUrl: URL,
     mongoOptions: {},
-    ttl: 20,
+    ttl: 120,
   }),
   secret: "asd",
   resave: false,

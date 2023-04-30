@@ -2,6 +2,7 @@ import { Router } from 'express'
 
 import passport from 'passport'
 import userModel from '../../dao/models/userModel.js'
+import cartModel from '../../dao/models/cartModel.js'
 import { createHash, validatePassword } from '../../utils/index.js'
 
 
@@ -12,7 +13,7 @@ router.post('/login', passport.authenticate('login', { failureRedirect: '/login'
   req.session.user = req.user
   const user = await userModel.findOne({ email: req.user.email });
 
-  //Si el usuario es adminCoder@coder.com // adminCod3r123 pass 
+  //Si el usuario es adminCoder@coder.com 
   if (user.email === 'adminCoder@coder.com') {
     user.role = 'admin';
     await user.save();
@@ -20,10 +21,30 @@ router.post('/login', passport.authenticate('login', { failureRedirect: '/login'
   res.redirect('/profile')
 })
 
-router.post('/register', passport.authenticate('register', { failureRedirect: '/register' }), (req, res) => {
-  res.redirect('/login')
-})
+router.post('/register', async (req, res) => {
+  const { first_name, last_name, email, age, password } = req.body
 
+  try {
+    const newCart = await cartModel.create({})
+    const cartId = newCart._id
+
+    const newUser = await userModel.create({
+      first_name,
+      last_name,
+      email,
+      age,
+      password: createHash(password),
+      cart: cartId,
+    })
+
+    newCart.user = newUser._id
+    await newCart.save()
+
+    res.redirect('/login')
+  } catch (error) {
+    res.render('register', { error: 'Error al registrar al usuario.' })
+  }
+})
 router.get('/logout', (req, res) => {
   req.session.destroy(error => {
     if (!error) {
