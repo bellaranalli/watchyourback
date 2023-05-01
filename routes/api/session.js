@@ -7,16 +7,23 @@ import { createHash, validatePassword } from '../../utils/index.js'
 
 
 const router = Router()
+
 router.post('/login', passport.authenticate('login', { failureRedirect: '/login' }), async (req, res) => {
   console.log('req.user', req.user);
   req.session.user = req.user;
+
   const user = await userModel.findOne({ email: req.user.email });
+
+  // actualizar el campo "status" del usuario a "active"
+  user.status = 'active';
+  await user.save();
 
   // Si el usuario es adminCoder@coder.com
   if (user.email === 'adminCoder@coder.com') {
     user.role = 'admin';
     await user.save();
   }
+
   res.redirect('/profile');
 });
 
@@ -34,6 +41,7 @@ router.post('/register', async (req, res) => {
       age,
       password: createHash(password),
       cart: cartId,
+      status: 'inactive', // nuevo campo agregado al modelo
     });
 
     newCart.user = newUser._id;
@@ -45,7 +53,13 @@ router.post('/register', async (req, res) => {
   }
 });
 
-router.get('/logout', (req, res) => {
+router.get('/logout', async (req, res) => {
+  const user = await userModel.findOne({ email: req.user.email });
+
+  // actualizar el campo "status" del usuario a "inactive" antes de destruir la sesión
+  user.status = 'inactive';
+  await user.save();
+
   req.session.destroy((error) => {
     if (!error) {
       res.redirect('/login');

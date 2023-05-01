@@ -12,7 +12,7 @@ const user = new mongoose.Schema({
     enum: ['admin', 'usuario'],
     default: 'usuario',
   },
-  status: { type: String, default: 'active', enum: ['active', 'inactive'] },
+  status: { type: String, default: 'inactive', enum: ['active', 'inactive'] },
 }, { timestamps: true })
 
 export default mongoose.model('User', user)
