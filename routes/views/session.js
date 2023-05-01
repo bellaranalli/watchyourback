@@ -26,6 +26,10 @@ router.get('/profile', auth, (req, res) => {
   res.render('profile', req.session.user)
 })
 
+//mostraría la session activa
+router.get('/current', auth, (req, res) => {
+  res.render('profile', req.session.user)
+})
 router.get('/auth/github', passport.authenticate('github', { scope: [ 'user:email' ] }))
 
 export default router

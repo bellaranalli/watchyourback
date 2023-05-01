@@ -51,7 +51,7 @@ app.use(expressSession({
   store: MongoStore.create({
     mongoUrl: URL,
     mongoOptions: {},
-    ttl: 120,
+    ttl: 1500,
   }),
   secret: "asd",
   resave: false,

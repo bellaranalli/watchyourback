@@ -7,26 +7,25 @@ import { createHash, validatePassword } from '../../utils/index.js'
 
 
 const router = Router()
-
 router.post('/login', passport.authenticate('login', { failureRedirect: '/login' }), async (req, res) => {
   console.log('req.user', req.user);
-  req.session.user = req.user
+  req.session.user = req.user;
   const user = await userModel.findOne({ email: req.user.email });
 
-  //Si el usuario es adminCoder@coder.com 
+  // Si el usuario es adminCoder@coder.com
   if (user.email === 'adminCoder@coder.com') {
     user.role = 'admin';
     await user.save();
   }
-  res.redirect('/profile')
-})
+  res.redirect('/profile');
+});
 
 router.post('/register', async (req, res) => {
-  const { first_name, last_name, email, age, password } = req.body
+  const { first_name, last_name, email, age, password } = req.body;
 
   try {
-    const newCart = await cartModel.create({})
-    const cartId = newCart._id
+    const newCart = await cartModel.create({});
+    const cartId = newCart._id;
 
     const newUser = await userModel.create({
       first_name,
@@ -35,62 +34,61 @@ router.post('/register', async (req, res) => {
       age,
       password: createHash(password),
       cart: cartId,
-    })
+    });
 
-    newCart.user = newUser._id
-    await newCart.save()
+    newCart.user = newUser._id;
+    await newCart.save();
 
-    res.redirect('/login')
+    res.redirect('/login');
   } catch (error) {
-    res.render('register', { error: 'Error al registrar al usuario.' })
+    res.render('register', { error: 'Error al registrar al usuario.' });
   }
-})
-router.get('/logout', (req, res) => {
-  req.session.destroy(error => {
-    if (!error) {
-      res.redirect('/login')
-    } else {
-      res.send({ status: 'Logout Error', body: error })
-    }
-  })
-})
-
-router.post('/reset-password', async (req, res) => {
-
-  const {
-    body: {
-      email,
-      password,
-    }
-  } = req
-
-  if (
-    !email ||
-    !password
-  ) {
-    return res.render('reset-password', { error: 'Todo los campos debe venir en la solicitud.' })
-  }
-
-  const user = await userModel.findOne({ email })
-
-  if (!user) {
-    return res.render('reset-password', { error: 'Email no existe.' })
-  }
-
-  user.password = createHash(password)
-
-  await userModel.updateOne({ email }, user)
-
-  res.redirect('/login')
-})
-
-router.get('/github/callback', passport.authenticate('github', { failureRedirect: '/login' }), (req, res) => {
-  req.session.user = req.user
-  res.redirect('/profile')
 });
 
-export default router
+router.get('/logout', (req, res) => {
+  req.session.destroy((error) => {
+    if (!error) {
+      res.redirect('/login');
+    } else {
+      res.send({ status: 'Logout Error', body: error });
+    }
+  });
+});
 
+router.post('/reset-password', async (req, res) => {
+  const {
+    body: { email, password },
+  } = req;
+
+  if (!email || !password) {
+    return res.render('reset-password', { error: 'Todo los campos debe venir en la solicitud.' });
+  }
+
+  const user = await userModel.findOne({ email });
+
+  if (!user) {
+    return res.render('reset-password', { error: 'Email no existe.' });
+  }
+
+  user.password = createHash(password);
+
+  await userModel.updateOne({ email }, user);
+
+  res.redirect('/login');
+});
+
+router.get('/github/callback', passport.authenticate('github', { failureRedirect: '/login' }), (req, res) => {
+  req.session.user = req.user;
+  res.redirect('/profile');
+});
+
+//http://localhost:8080/api/sessions/current
+router.get('/current', (req, res) => {
+  const { user } = req.session;
+  res.json(user);
+});
+
+export default router;
 
 //CODIGO NO UTILIZADO 
 /*router.post('/login', async (req, res) => {
