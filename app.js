@@ -3,6 +3,8 @@ import express from 'express'
 import routerProducts from './routes/api/productsDB.js'
 import routerCarts from './routes/api/cartsDB.js'
 import routerMessages from './routes/api/messagesDB.js'
+import routerUsers from './routes/api/usersDB.js'
+import authRouter from './routes/api/auth.js'
 //VISTA
 import routerVistaProducto from './routes/views/productsDB.js'
 import routerVistaMensaje from './routes/views/messagesDB.js'
@@ -20,6 +22,7 @@ import router from './routes/index.js'
 //PASSPORT
 import passport from 'passport'
 import initPassport from './config/passport.config.js'
+import Utils from './utils/index.js'
 
 import { config } from 'dotenv';
 config();
@@ -47,26 +50,20 @@ app.engine('handlebars', handlebars.engine())
 app.set('view engine', 'handlebars')
 app.set('views', __dirname + '/views')
 
-app.use(expressSession({
-  store: MongoStore.create({
-    mongoUrl: URL,
-    mongoOptions: {},
-    ttl: 1500,
-  }),
-  secret: "asd",
-  resave: false,
-  saveUninitialized: false,
-}))
-
 initPassport()
 
 app.use(passport.initialize())
-app.use(passport.session())
+
 
 //VISTAS API / THUNDER CLIENT
 app.use('/mongop', routerProducts)
 app.use('/mongoc', routerCarts)
 app.use('/mongom', routerMessages)
+app.use('/mongou', routerUsers)
+app.use('/auth', authRouter)
+app.use('/current', Utils.authJWTMiddleware('admin'),Utils.authorizationMiddleware('admin'), (req, res) => {
+  res.json({success: true, message: 'This is a private route', user: req.user})
+})
 
 //VISTAS DE NAVEGADOR
 app.use('/productos', routerVistaProducto)
@@ -76,3 +73,24 @@ app.use('/carrito', routerVistaCartID)
 //VISTAS COOKIES/SESSION
 app.use('/', router)
 
+app.use((err, req, res, next) => {
+  /* console.log(err) */
+  res 
+    .status(err.statusCode || 500)
+    .json({success: false, message: err.message})
+})
+
+
+/*
+app.use(passport.session())
+
+app.use(expressSession({
+  store: MongoStore.create({
+    mongoUrl: URL,
+    mongoOptions: {},
+    ttl: 1500,
+  }),
+  secret: "asd",
+  resave: false,
+  saveUninitialized: false,
+}))*/
