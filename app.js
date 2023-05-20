@@ -1,6 +1,7 @@
 import express from 'express'
 //API
-import routerProducts from './routes/api/productsDB.js'
+import apiRouter from './routes/api/index.js'
+/*import routerProducts from './routes/api/productsDB.js'
 import routerCarts from './routes/api/cartsDB.js'
 import routerMessages from './routes/api/messagesDB.js'
 import routerUsers from './routes/api/usersDB.js'
@@ -8,7 +9,7 @@ import authRouter from './routes/api/auth.js'
 //VISTA
 import routerVistaProducto from './routes/views/productsDB.js'
 import routerVistaMensaje from './routes/views/messagesDB.js'
-import routerVistaCartID from './routes/views/cartsDB.js'
+import routerVistaCartID from './routes/views/cartsDB.js'*/
 //MONGO, HANDLEBARS, WEBSOCKET
 import { init } from './db/mongodb.js'
 import __dirname from './utils.js'
@@ -55,23 +56,21 @@ initPassport()
 app.use(passport.initialize())
 
 
-//VISTAS API / THUNDER CLIENT
-app.use('/mongop', routerProducts)
+//RUTAS API / THUNDER CLIENT
+/*app.use('/mongop', routerProducts)
 app.use('/mongoc', routerCarts)
 app.use('/mongom', routerMessages)
 app.use('/mongou', routerUsers)
-app.use('/auth', authRouter)
-app.use('/current', Utils.authJWTMiddleware('admin'),Utils.authorizationMiddleware('admin'), (req, res) => {
-  res.json({success: true, message: 'This is a private route', user: req.user})
-})
+app.use('/auth', authRouter)*/
+app.use('/', apiRouter)
 
-//VISTAS DE NAVEGADOR
-app.use('/productos', routerVistaProducto)
+//RUTAS VISTAS DE NAVEGADOR
+/*app.use('/productos', routerVistaProducto)
 app.use('/mensajes', routerVistaMensaje)
-app.use('/carrito', routerVistaCartID)
+app.use('/carrito', routerVistaCartID)*/
 
-//VISTAS COOKIES/SESSION
-app.use('/', router)
+//VISTAS COOKIES/SESSION - no sirven porque uso JWT
+//app.use('/', router)
 
 app.use((err, req, res, next) => {
   /* console.log(err) */

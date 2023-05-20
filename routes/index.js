@@ -1,6 +1,6 @@
 import { Router } from 'express'
 
-import sessionsApiRouter from './api/session.js'
+import sessionsApiRouter from './api/archivosSinUsar/session.js'
 import sessionsViewsRouter from './views/session.js'
 
 const router = Router()

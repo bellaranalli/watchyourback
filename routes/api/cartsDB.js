@@ -1,6 +1,6 @@
 import  express  from 'express';
 
-import { uploader } from '../../utils.js'
+import Utils from '../../utils/index.js';
 import CartsManagerDB from '../../dao/dbManager/cartManagerDB.js'
 
 const routerCarts = express.Router()
@@ -12,24 +12,24 @@ const cartsMDB = new CartsManagerDB();
 
 routerCarts
 //la ruta para postear en la db seria localhost:8080/mongoc/post
-.post('/post',(req,res)=> {CartsManagerDB.createCarts(req, res)})
+.post('/post',Utils.authJWTMiddleware(['admin']),CartsManagerDB.createCarts)
 
 //la ruta para mostrar los carritos de la db seria localhost:8080/mongoc/get/carts
-.get('/get/carts', (req,res) => {CartsManagerDB.getCarts(req, res)} )
+.get('/get/carts',Utils.authJWTMiddleware(['admin']),CartsManagerDB.getCarts)
 
-//la ruta para mostrar los carritos de la db por id seria localhost:8080/mongoc/get/carts/:cid
-.get('/get/carts/:cid', (req,res) => {CartsManagerDB.getCartById(req, res)} )
+//la ruta para mostrar los carritos de la db por id seria localhost:8080/mongoc/get/:cid
+.get('/get/:cid',Utils.authJWTMiddleware(['admin']),CartsManagerDB.getCartById)
 
-//la ruta para agregar un producto a un carrito de la db por id seria localhost:8080/mongoc/post/carts/:cid   
+//la ruta para agregar un producto a un carrito de la db por id seria localhost:8080/mongoc/post/:cid   
 //(paso por body { "pid": " ", "cid": " "} )
-.post('/post/carts/:cid', (req,res) => {CartsManagerDB.addProductToCart(req, res)} )
+.post('/post/:cid',Utils.authJWTMiddleware(['admin']),CartsManagerDB.addProductToCart)
 
-//la ruta para borrar un producto de un carrito de la db por id seria localhost:8080/mongoc/put/carts/:cid
+//la ruta para borrar un producto de un carrito de la db por id seria localhost:8080/mongoc/put/:cid
 //(paso por body { "pid": " ", "cid": " "} )
-.put('/put/carts/:cid', (req,res) => {CartsManagerDB.removeProductFromCart(req, res)} )
+.put('/put/:cid',Utils.authJWTMiddleware(['admin']),CartsManagerDB.removeProductFromCart)
 
-//la ruta para eliminar un carrito de la db por id seria localhost:8080/mongoc/delete/carts/:cid
-.delete('/delete/carts/:cid', (req,res) => {CartsManagerDB.deleteCart(req, res)} )
+//la ruta para eliminar un carrito de la db por id seria localhost:8080/mongoc/delete/:cid
+.delete('/delete/:cid',Utils.authJWTMiddleware(['admin']),CartsManagerDB.deleteCart)
 
 export default routerCarts;
 

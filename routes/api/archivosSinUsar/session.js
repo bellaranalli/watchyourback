@@ -1,9 +1,9 @@
 import { Router } from 'express'
 
 import passport from 'passport'
-import userModel from '../../dao/models/userModel.js'
-import cartModel from '../../dao/models/cartModel.js'
-import Utils from '../../utils/index.js'
+import userModel from '../../../dao/models/userModel.js'
+import cartModel from '../../../dao/models/cartModel.js'
+import Utils from '../../../utils/index.js'
 
 
 const router = Router()
