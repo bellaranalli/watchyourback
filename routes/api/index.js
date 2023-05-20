@@ -19,4 +19,5 @@ router.use('/current', Utils.authJWTMiddleware('admin'), Utils.authorizationMidd
     res.json({ success: true, message: 'This is a private route', user: req.user })
 })
 
+
 export default router

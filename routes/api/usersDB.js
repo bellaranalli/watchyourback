@@ -1,7 +1,7 @@
 import { Router } from "express";
 import UserManagerDB from "../../dao/dbManager/userManagerDB.js";
 import Utils from "../../utils/index.js";
-
+import passport from 'passport'
 const routerUsers = Router ()
 
 routerUsers
