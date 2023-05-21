@@ -5,7 +5,7 @@ import routerMessages from "./messagesDB.js";
 import routerProducts from "./productsDB.js";
 import routerUsers from "./usersDB.js";
 import authRouter from "./auth.js";
-import routerGH from "./github.js";
+import routerGH from "./gitHub.js";
 
 import Utils from "../../utils/index.js";
 
