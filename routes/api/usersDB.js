@@ -11,4 +11,5 @@ routerUsers
 .put('/:id',Utils.authJWTMiddleware(['admin','usuario']), UserManagerDB.updateById)
 .delete('/:id',Utils.authJWTMiddleware(['admin','usuario']), UserManagerDB.deleteById)
 
+
 export default routerUsers

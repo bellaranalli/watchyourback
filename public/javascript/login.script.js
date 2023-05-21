@@ -2,7 +2,7 @@
     const formLogin = document.getElementById('form-login');
     const inputMail = document.getElementById('email');
     const inputPassword = document.getElementById('password');
-    const githubLoginButton = document.getElementById('github-login');
+    const githubLoginButton = document.getElementById('github-login'); // no funciona!! pero para que funcione luego
   
     formLogin.addEventListener('submit', async(event) => {
       event.preventDefault();
