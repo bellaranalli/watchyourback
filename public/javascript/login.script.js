@@ -57,5 +57,4 @@
     console.log('Se ha creado el rol de administrador');
   }
 
-
 })();
