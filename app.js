@@ -27,6 +27,17 @@ const URL = process.env.NODE_URI
 init()
 const app = express()
 
+app.use(expressSession({
+  store: MongoStore.create({
+    mongoUrl: URL,
+    mongoOptions: {},
+    ttl: 1500,
+  }),
+  secret: "asd",
+  resave: false,
+  saveUninitialized: false,
+}))
+
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static(__dirname + '/public'))
