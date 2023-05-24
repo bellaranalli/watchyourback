@@ -4,23 +4,23 @@ import passport from 'passport';
 const routerLogV = Router();
 
 routerLogV.get('/login', (req, res) => {
-  res.redirect('/login');
+  res.render('login');
 });
 
 routerLogV.get('/register', (req, res) => {
-  res.redirect('/register');
+  res.render('register');
 });
 
 routerLogV.get('/reset-password', (req, res) => {
-  res.redirect('/reset-password');
+  res.render('reset-password');
 });
 
 routerLogV.get('/profile', (req, res) => {
-  res.redirect('/profile');
+  res.render('profile');
 });
 
 routerLogV.get('/current', (req, res) => {
-  res.redirect('/profile');
+  res.render('profile');
 });
 
 export default routerLogV;
