@@ -6,6 +6,7 @@ import routerProducts from "./productsDB.js";
 import routerUsers from "./usersDB.js";
 import authRouter from "./auth.js";
 import routerGH from "./gitHub.js";
+import routerLog from "./logins.js";
 
 import Utils from "../../utils/index.js";
 
@@ -21,5 +22,6 @@ router.use('/current', Utils.authJWTMiddleware('admin'), Utils.authorizationMidd
     res.json({ success: true, message: 'This is a private route', user: req.user })
 })
 router.use('/', routerGH)
+router.use('/login', routerLog)
 
 export default router

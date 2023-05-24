@@ -1,4 +1,4 @@
-(function(){
+/*(function(){
     const formLogin = document.getElementById('form-register')
     const inputfirst_name = document.getElementById('first_name')
     const inputlast_name = document.getElementById('last_name')
@@ -39,4 +39,4 @@
             console.log('Error', error);
         })
     })
-})()
+})()*/

@@ -1,4 +1,4 @@
-(function() {
+/*(function() {
   const formLogin = document.getElementById('form-login');
   const inputMail = document.getElementById('email');
   const inputPassword = document.getElementById('password');
@@ -57,4 +57,4 @@
     console.log('Se ha creado el rol de administrador');
   }
 
-})();
+})();*/
