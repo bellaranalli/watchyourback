@@ -22,7 +22,7 @@ routerCarts
 
 //la ruta para agregar un producto a un carrito de la db por id seria localhost:8080/mongoc/post/:cid   
 //(paso por body { "pid": " ", "cid": " "} )
-.post('/post/:cid',Utils.authJWTMiddleware(['admin']),CartsManagerDB.addProductToCart)
+.post('/post/:cid',Utils.authJWTMiddleware(['usuario']),CartsManagerDB.addProductToCart)
 
 //la ruta para borrar un producto de un carrito de la db por id seria localhost:8080/mongoc/put/:cid
 //(paso por body { "pid": " ", "cid": " "} )

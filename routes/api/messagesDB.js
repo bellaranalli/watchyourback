@@ -1,6 +1,6 @@
 import { Router } from 'express'
-
 import MessageManagerDB from '../../dao/dbManager/messageManagerDB.js'
+import Utils from '../../utils/index.js'
 
 const routerMessages = Router()
 
@@ -10,7 +10,7 @@ routerMessages
   //la ruta para mostrar mensajes de la db seria localhost:8080/mongom/get
   .get('/get', MessageManagerDB.get)
   //la ruta para postear mensjaes en la db seria localhost:8080/mongom/post
-  .post('/post', MessageManagerDB.create)
+  .post('/post',Utils.authJWTMiddleware(['usuario']), MessageManagerDB.create)
    //la ruta para mostrar mensajes por id de la db seria localhost:8080/mongom/get/id
   .get('/get/messages/:id', MessageManagerDB.getById)
   //la ruta para modificar mensajes por id de la db seria localhost:8080/mongom/put/id
