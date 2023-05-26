@@ -8,6 +8,7 @@ import authRouter from "./auth.js";
 import routerGH from "./gitHub.js";
 import routerLog from "./logins.js";
 import purchaseRouter from "./purchase.js";
+import serviceRouter from "./services.js";
 
 import Utils from "../../utils/index.js";
 
@@ -25,5 +26,6 @@ router.use('/current', Utils.authJWTMiddleware('admin'), Utils.authorizationMidd
 router.use('/', routerGH)
 router.use('/login', routerLog)
 router.use('/', purchaseRouter)
+router.use('/', serviceRouter)
 
 export default router
