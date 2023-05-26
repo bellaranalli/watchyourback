@@ -24,7 +24,7 @@ router.use('/current', Utils.authJWTMiddleware(['admin', 'usuario']),(req, res) 
     res.json({ success: true, message: 'This is a private route', user: req.user })
 })
 router.use('/', routerGH)
-router.use('/login', routerLog)
+router.use('/', routerLog)
 router.use('/', purchaseRouter)
 router.use('/', serviceRouter)
 

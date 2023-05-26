@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import userModel from '../../dao/models/userModel.js';
 import cartModel from '../../dao/models/cartModel.js';
 import Utils from '../../utils/index.js';
+import bcrypt from 'bcrypt';
 
 const routerLog = Router();
 
@@ -95,6 +96,27 @@ routerLog.get('/current', async (req, res) => {
     res.json({ user });
   } catch (error) {
     res.status(401).json({ error: 'Token inválido' });
+  }
+});
+
+// Reset Password
+routerLog.post('/reset-password', async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    const user = await userModel.findOne({ email });
+
+    if (!user) {
+      return res.status(404).json({ error: 'Usuario no encontrado' });
+    }
+
+    // Actualizar la contraseña del usuario
+    user.password = await bcrypt.hash(password, 10);
+    await user.save();
+
+    res.json({ message: 'Contraseña restablecida exitosamente' });
+  } catch (error) {
+    res.status(500).json({ error: 'Error al restablecer la contraseña' });
   }
 });
 
