@@ -4,7 +4,7 @@ import { customAlphabet } from 'nanoid';
 import cartModel from '../../dao/models/cartModel.js';
 import productModel from '../../dao/models/productModel.js';
 import ticketModel from '../../dao/models/ticketModel.js';
-import TicketService from './ticketService.js';
+import TicketService from '../../services/ticket.service.js';
 
 const purchaseRouter = Router();
 
