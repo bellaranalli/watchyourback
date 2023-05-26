@@ -1,5 +1,5 @@
 import emailService from '../../services/email.service.js'
-//import twilioService from '../../services/twilio.service.js'
+import twilioService from '../../services/twilio.service.js'
 import { Router } from 'express'
 import { uploader } from '../../utils.js'
 
@@ -65,19 +65,19 @@ serviceRouter.get('/email', async (req, res) => {
   console.log(result)
   res.send(`
   <div>
-    <h1>Hello email!</h1>
+    <h1>EMAIL ENVIADO!</h1>
     <a href="/services">Go back</a>
   </div>
   `)
 })
 
-/*serviceRouter.get('/sms', async (req, res) => {
-  const result = await twilioService.sendSMS('+56945472812', 'Hola. Cómo estás? Gracias por unirte a nuestra comunidad.')
+serviceRouter.get('/sms', async (req, res) => {
+  const result = await twilioService.sendSMS('+541158733069', 'Hola! Cómo estás? Gracias por unirte a nuestra comunidad.')
   console.log(result)
   res.send(`
   <div>
-    <h1>Hello sms!</h1>
-    <a href="/">Go back</a>
+    <h1>SMS ENVIADO!</h1>
+    <a href="/services">Go back</a>
   </div>
   `)
 })
@@ -90,9 +90,9 @@ serviceRouter.get('/thanks', async (req, res) => {
   console.log(result)
   res.send(`
   <div>
-    <h1>Hello sms!</h1>
+    <h1>SMS ENVIADO!</h1>
     <a href="/">Go back</a>
   </div>
   `)
-})*/
+})
  export default serviceRouter
