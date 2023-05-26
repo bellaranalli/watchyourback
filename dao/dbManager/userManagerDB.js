@@ -69,7 +69,7 @@ class UserManagerDB {
     res.cookie('token', token, {
       maxAge: 60 * 60 * 1000,
       httpOnly: true
-    }).status(200).json({success: true})
+    }).status(200).json({success: true, access_token: token})
   } 
 
   static async logout(req, res) {

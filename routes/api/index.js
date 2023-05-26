@@ -20,7 +20,7 @@ router.use('/mongom', routerMessages)
 router.use('/mongop', routerProducts)
 router.use('/mongou', routerUsers)
 router.use('/', authRouter) //localhost:8080/login
-router.use('/current', Utils.authJWTMiddleware('admin'), Utils.authorizationMiddleware('admin'), (req, res) => {
+router.use('/current', Utils.authJWTMiddleware(['admin', 'usuario']),(req, res) => {
     res.json({ success: true, message: 'This is a private route', user: req.user })
 })
 router.use('/', routerGH)
