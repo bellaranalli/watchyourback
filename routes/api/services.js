@@ -50,7 +50,7 @@ serviceRouter.get('/email', async (req, res) => {
     },
   ]
   const result = await emailService.sendEmail(
-    'bela.ranalli@gmail.com',
+    process.env.EMAIL_TEST,
     'Hola. ¿Cómo estás?',
     `
     <div>
@@ -72,7 +72,7 @@ serviceRouter.get('/email', async (req, res) => {
 })
 
 serviceRouter.get('/sms', async (req, res) => {
-  const result = await twilioService.sendSMS('+541158733069', 'Hola! Cómo estás? Gracias por unirte a nuestra comunidad.')
+  const result = await twilioService.sendSMS(process.env.TWILIO_PHONE_TEST, 'Hola! Cómo estás? Gracias por unirte a nuestra comunidad.')
   console.log(result)
   res.send(`
   <div>
@@ -84,7 +84,7 @@ serviceRouter.get('/sms', async (req, res) => {
 serviceRouter.get('/thanks', async (req, res) => {
   const name = req.query.name
   const product = req.query.product
-  const target = '+541158733069'
+  const target = process.env.TWILIO_PHONE_TEST
   const body = `Gracias, ${name}, tu solicitud del producto ${product} ha sido aprobada.`
   const result = await twilioService.sendSMS(target, body)
   console.log(result)
