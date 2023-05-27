@@ -3,6 +3,8 @@ import express from 'express'
 import apiRouter from './routes/api/index.js'
 //VISTA
 import viewRouter from './routes/views/index.js'
+//MOCK
+import routerMock from './mockingproducts/router/mockingproducts.js'
 //MONGO, HANDLEBARS, WEBSOCKET
 import { init } from './db/mongodb.js'
 import __dirname from './utils.js'
@@ -64,6 +66,9 @@ app.use('/', apiRouter)
 
 //RUTAS VISTAS DE NAVEGADOR
 app.use('/', viewRouter)
+
+//MOCKING
+app.use('/', routerMock)
 
 app.use((err, req, res, next) => {
   /* console.log(err) */
