@@ -6,11 +6,11 @@ const routerMock = Router()
 
 routerMock.get('/mockingproducts', (req, res) => {
     const { count = 100 } = req.query
-    const users = []
+    const products = []
     for (let i = 0; i < count; i++) {
-        users.push(generateProduct())
+        products.push(generateProduct())
     }
-    res.status(200).json({ status: true, payload: users })
+    res.status(200).json({ status: true, payload: products })
 })
 
 export default routerMock

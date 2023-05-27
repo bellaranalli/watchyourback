@@ -3,8 +3,10 @@ import express from 'express'
 import apiRouter from './routes/api/index.js'
 //VISTA
 import viewRouter from './routes/views/index.js'
-//MOCK
+//MOCK, COMPRESSION Y ERROR
 import routerMock from './mockingproducts/router/mockingproducts.js'
+import compression from 'express-compression'
+import MiddlewareError from './mockingproducts/utils/errors/MiddlewareError.js'
 //MONGO, HANDLEBARS, WEBSOCKET
 import { init } from './db/mongodb.js'
 import __dirname from './utils.js'
@@ -67,7 +69,11 @@ app.use('/', apiRouter)
 //RUTAS VISTAS DE NAVEGADOR
 app.use('/', viewRouter)
 
-//MOCKING
+//MOCKING, COMPRESSION Y ERROR
+app.use(compression({
+  brotli:{enabled: true, zlib:{}}
+}))
+app.use(MiddlewareError)
 app.use('/', routerMock)
 
 app.use((err, req, res, next) => {
