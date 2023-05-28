@@ -1,4 +1,4 @@
-export const generatorUserError = (user) => {
+export const generatorProductError = (user) => {
     return `One or more of the following fields are invalid or incomplete.
     List of required fields:
       - tilte : ${product.title}
