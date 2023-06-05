@@ -62,15 +62,26 @@ class LoginsManager {
   }
 
   static async logout(req, res) {
-    const user = await userModel.findOne({ email: req.user.email });
-
-    // Actualizar el campo "status" del usuario a "inactive"
-    user.status = 'inactive';
-    await user.save();
-    res.redirect('/login');
-    res.json({ message: 'Sesión cerrada exitosamente' });
+    try {
+      const { email } = req.user; 
+      
+      const user = await userModel.findOne({ email });
+  
+      if (!user) {
+        return res.status(404).json({ error: 'Usuario no encontrado' });
+      }
+  
+      // Actualizar el campo "status" del usuario a "inactive"
+      user.status = 'inactive';
+      await user.save();
+      
+      res.redirect('/login');
+      res.json({ message: 'Sesión cerrada exitosamente' });
+    } catch (error) {
+      res.status(500).json({ error: 'Error al cerrar la sesión' });
+    }
   }
-
+  
   static async current(req, res) {
     const { authorization } = req.headers;
     if (!authorization || !authorization.startsWith('Bearer ')) {
