@@ -1,4 +1,24 @@
 import { Router } from 'express';
+import LoginsManager from '../../dao/dbManager/loginsManagerDB.js';
+
+const routerLog = Router();
+
+//Login
+routerLog.post('/login', LoginsManager.login);
+//Registro
+routerLog.post('/register', LoginsManager.register);
+//Logout
+routerLog.get('/logout', LoginsManager.logout);
+//Current
+routerLog.get('/current', LoginsManager.current);
+// Reset Password
+routerLog.post('/reset-password', LoginsManager.resetPassword);
+
+export default routerLog;
+
+
+//CODIGO QUE NO USO
+/*import { Router } from 'express';
 import jwt from 'jsonwebtoken';
 import userModel from '../../dao/models/userModel.js';
 import cartModel from '../../dao/models/cartModel.js';
@@ -120,4 +140,4 @@ routerLog.post('/reset-password', async (req, res) => {
   }
 });
 
-export default routerLog;
+export default routerLog;*/
