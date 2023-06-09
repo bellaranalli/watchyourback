@@ -1,22 +1,25 @@
 import mongoose from "mongoose";
 import cartsModel from "../models/cartModel.js";
+import Carts from "../cartsDao.js";
 
 
 class CartsManagerDB {
 //CREO EL CARRITO
   static async createCarts(req, res) {
     const { body } = req
-    const result = await cartsModel.create(body)
+    const result = await Carts.createCart(body)
     res.status(201).json(result)
   }
 //LLAMO A TODOS LOS CARRITOS
   static async getCarts(req, res) {
-    const result = await cartsModel.find().populate('products.product')
+    const result = await Carts.getCarts().populate('products.product')
     res.status(200).json(result)
   }
+
+ //CARRITOS POR ID 
   static async getCartById(req, res) {
     const { params: { cid } } = req
-    const result = await cartsModel.findById(cid).populate('products.product')
+    const result = await Carts.getCartById(cid).populate('products.product')
     if (!result) {
       return res.status(404).send("CART NOT FOUND")
     }
@@ -27,7 +30,7 @@ class CartsManagerDB {
     const { pid, cid } = req.body;
 
     try {
-      const cart = await cartsModel.findById(cid).populate("products.product");
+      const cart = await Carts.getCartById(cid).populate("products.product");
       if (!cart) {
         return res.status(404).json({ message: "CART NOT FOUND" });
       }
@@ -52,7 +55,7 @@ class CartsManagerDB {
     const { pid, cid } = req.body;
 
     try {
-      const cart = await cartsModel.findById(cid).populate("products.product");
+      const cart = await Carts.getCartById(cid).populate("products.product");
       if (!cart) {
         return res.status(404).json({ message: "CART NOT FOUND" });
       }
@@ -79,7 +82,7 @@ class CartsManagerDB {
     const { cid } = req.params;
 
     try {
-        const result = await cartsModel.findByIdAndDelete(cid);
+        const result = await Carts.deleteCartById(cid);
         if (!result) {
             return res.status(404).json({ message: "CART NOT FOUND" });
         }
