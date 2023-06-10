@@ -20,6 +20,8 @@ import MongoStore from 'connect-mongo';
 import passport from 'passport'
 import initPassport from './config/passport.config.js'
 import Utils from './utils/index.js'
+//LOGGER
+import { addLogger } from './utils/logger.js'
 
 import { config } from 'dotenv';
 config();
@@ -48,6 +50,7 @@ app.use(express.static(__dirname + '/public'))
 app.use(express.static(__dirname + '/views/layouts'))
 app.use(express.static('public'))
 app.use(cookieParser())
+app.use(addLogger)
 
 let httpServer = app.listen(PORT, () => {
   console.log(`Server running in http://localhost:${PORT}/ in ${ENV} environment.`)
@@ -83,6 +86,15 @@ app.use((err, req, res, next) => {
     .json({success: false, message: err.message})
 })
 
+app.get('/loggerTest', (req, res) => {
+ // req.logger.fatal('Esto fue un fatal')
+  req.logger.error('Esto fue un error')
+  req.logger.warn('Esto fue un warn')
+  req.logger.info('Esto fue un info')
+  req.logger.http('Esto fue un http')
+  req.logger.debug('Esto fue un debug')
+  res.send('<h1>Hello world!</h1>')
+})
 
 
 //CODIGO QUE NO USO
