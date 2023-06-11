@@ -87,7 +87,7 @@ app.use((err, req, res, next) => {
 })
 
 app.get('/loggerTest', (req, res) => {
- // req.logger.fatal('Esto fue un fatal')
+ // req.logger.fatal('Esto fue un fatal')  LO COMENTO PQ POR MOMENTOS LO RECONOCE Y POR MOMENTOS NO
   req.logger.error('Esto fue un error')
   req.logger.warn('Esto fue un warn')
   req.logger.info('Esto fue un info')
