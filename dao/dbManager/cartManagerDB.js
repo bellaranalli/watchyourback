@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import cartsModel from "../models/cartModel.js";
 import Carts from "../cartsDao.js";
+import Products from "../productsDao.js";
 
 
 class CartsManagerDB {
@@ -26,30 +27,50 @@ class CartsManagerDB {
     res.status(200).json(result)
   }
 //AGREGO UN PRODUCTO EN UN CARRITO EN ESPECIFICO: PASA POR BODY SOLO EL PID Y CID
-  static async addProductToCart(req, res) {
-    const { pid, cid } = req.body;
+static async addProductToCart(req, res) {
+  const { pid, cid } = req.body;
+  const currentUser = req.user; // Obtener usuario actual
 
-    try {
-      const cart = await Carts.getCartById(cid).populate("products.product");
-      if (!cart) {
-        return res.status(404).json({ message: "CART NOT FOUND" });
-      }
-      const productIndex = cart.products.findIndex(
-        (p) => p.product._id.toString() === pid
-      );
-      if (productIndex >= 0) {
-        cart.products[productIndex].quantity += 1;
-      } else {
-        cart.products.push({ product: pid });
-      }
-      await cart.save();
-      return res.status(200).json(cart);
+  try {
+    const cart = await Carts.getCartById(cid).populate("products.product");
+    if (!cart) {
+      return res.status(404).json({ message: "CART NOT FOUND" });
     }
-    catch (error) {
-      console.log(error);
-      return res.status(500).json({ message: "SERVER ERROR" });
+
+    const product = await Products.getProductById(pid); // Producto por id
+
+    // Verificar el rol del usuario actual
+    const validRoles = ["admin", "premium", "user"];
+    if (!validRoles.includes(currentUser.role)) {
+      return res.status(403).json({ message: "Invalid user role." });
     }
+
+    // Verificar si el usuario actual es "premium" y si el producto pertenece a él
+    if (
+      currentUser.role === "premium" &&
+      product.owner &&
+      product.owner === currentUser.email
+    ) {
+      return res
+        .status(403)
+        .json({ message: "Premium users cannot add their own products to the cart."});
+    }
+
+    const productIndex = cart.products.findIndex(
+      (p) => p.product._id.toString() === pid
+    );
+    if (productIndex >= 0) {
+      cart.products[productIndex].quantity += 1;
+    } else {
+      cart.products.push({ product: pid });
+    }
+    await cart.save();
+    return res.status(200).json(cart);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "SERVER ERROR" });
   }
+}
 //ELIMINO UN PRODUCTO EN UN CARRITO EN ESPECIFICO: PASA POR BODY(THUNDER CLIENT) SOLO EL PID Y CID
   static async removeProductFromCart(req, res) {
     const { pid, cid } = req.body;

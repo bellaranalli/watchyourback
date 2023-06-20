@@ -18,11 +18,11 @@ routerCarts
 .get('/get/carts',Utils.authJWTMiddleware(['admin']),CartsManagerDB.getCarts)
 
 //la ruta para mostrar los carritos de la db por id seria localhost:8080/mongoc/get/:cid
-.get('/get/:cid',Utils.authJWTMiddleware(['admin', 'usuario']),CartsManagerDB.getCartById)
+.get('/get/:cid',Utils.authJWTMiddleware(['admin', 'user', 'premium']),CartsManagerDB.getCartById)
 
 //la ruta para agregar un producto a un carrito de la db por id seria localhost:8080/mongoc/post/:cid   
 //(paso por body { "pid": " ", "cid": " "} )
-.post('/post/:cid',Utils.authJWTMiddleware(['admin', 'usuario']),CartsManagerDB.addProductToCart)
+.post('/post/:cid',Utils.authJWTMiddleware(['admin', 'user', 'premium']),CartsManagerDB.addProductToCart)
 
 //la ruta para borrar un producto de un carrito de la db por id seria localhost:8080/mongoc/put/:cid
 //(paso por body { "pid": " ", "cid": " "} )
