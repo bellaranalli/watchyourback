@@ -10,6 +10,6 @@ routerUsers
 .get('/:id',Utils.authJWTMiddleware(['admin', 'usuario']), UserManagerDB.getById)
 .put('/:id',Utils.authJWTMiddleware(['admin','usuario']), UserManagerDB.updateById)
 .delete('/:id',Utils.authJWTMiddleware(['admin','usuario']), UserManagerDB.deleteById)
-
+.get('/premium/:id',Utils.authJWTMiddleware(['admin']), UserManagerDB.changeUserRole);
 
 export default routerUsers

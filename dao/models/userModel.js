@@ -1,18 +1,18 @@
 import mongoose from 'mongoose'
 
-const user = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
   first_name: String,
   last_name: String,
-  email: { type: String, require: true, unique: true, index: true, validate: /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/ },
+  email: { type: String, required: true, unique: true, index: true, validate: /^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$/ },
   age: Number,
   password: String,
-  cart: { type: mongoose.Schema.Types.ObjectId, ref: 'Carts', require: true },
+  cart: { type: mongoose.Schema.Types.ObjectId, ref: 'Cart', required: true },
   role: {
     type: String,
-    enum: ['admin', 'usuario'],
-    default: 'usuario',
+    enum: ['admin', 'user', 'premium'],
+    default: 'user',
   },
   status: { type: String, default: 'inactive', enum: ['active', 'inactive'] },
 }, { timestamps: true })
 
-export default mongoose.model('User', user)
+export default mongoose.model('User', userSchema)

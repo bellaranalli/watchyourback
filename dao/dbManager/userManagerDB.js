@@ -68,6 +68,7 @@ class UserManagerDB {
       await user.save();
     }
 
+  
     const token = Utils.tokenGenerator(user)
     res.cookie('token', token, {
       maxAge: 60 * 60 * 1000,
@@ -82,6 +83,29 @@ class UserManagerDB {
     await user.save();
     res.clearCookie('token');
     res.status(200).json({success: true});
+}
+
+static async changeUserRole(req, res) {
+  const { params: { id } } = req;
+  const user = await Users.getUserById(id);
+
+  if (!user) {
+    return res.status(404).json({ message: 'Usuario no encontrado' });
+  }
+
+  let newRole = '';
+  if (user.role === 'user') {
+    newRole = 'premium';
+  } else if (user.role === 'premium') {
+    newRole = 'user';
+  } else {
+    return res.status(400).json({ message: 'Rol de usuario inválido' });
+  }
+
+  user.role = newRole;
+  await user.save();
+
+  res.status(200).json({ message: 'Rol de usuario actualizado exitosamente', newRole });
 }
 
 }
