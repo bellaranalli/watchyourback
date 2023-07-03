@@ -1,4 +1,5 @@
 import express from 'express'
+import path from 'path';
 //API
 import apiRouter from './routes/api/index.js'
 //VISTA
@@ -22,6 +23,9 @@ import initPassport from './config/passport.config.js'
 import Utils from './utils/index.js'
 //LOGGER
 import { addLogger } from './utils/logger.js'
+//SWAGGER
+import swaggerJSDoc from 'swagger-jsdoc';
+import swaggerUi from 'swagger-ui-express';
 
 import { config } from 'dotenv';
 config();
@@ -50,7 +54,7 @@ app.use(express.static(__dirname + '/public'))
 app.use(express.static(__dirname + '/views/layouts'))
 app.use(express.static('public'))
 app.use(cookieParser())
-app.use(addLogger)
+//app.use(addLogger)
 
 let httpServer = app.listen(PORT, () => {
   console.log(`Server running in http://localhost:${PORT}/ in ${ENV} environment.`)
@@ -66,11 +70,29 @@ initPassport()
 
 app.use(passport.initialize())
 
+//SWAGGER CONFIG
+const swaggerOptions = {
+  definition : {
+      openapi: '3.0.1',
+      info: {
+          title: 'Ecommerce Api',
+          description: 'Ecommerce Api'
+      },
+  },
+  apis:[path.join(__dirname,'.', 'docs','**','*.yaml')],
+};
+const specs = swaggerJSDoc(swaggerOptions);
+
+console.log(path.join(__dirname,'.', 'docs','**','*.yaml'));
+
 //RUTAS API / THUNDER CLIENT
 app.use('/', apiRouter)
 
 //RUTAS VISTAS DE NAVEGADOR
 app.use('/', viewRouter)
+
+//RUTAS SWAGGER
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 //MOCKING, COMPRESSION Y ERROR
 app.use(compression({
@@ -95,6 +117,9 @@ app.get('/loggerTest', (req, res) => {
   req.logger.debug('Esto fue un debug')
   res.send('<h1>Hello world!</h1>')
 })
+
+
+
 
 
 //CODIGO QUE NO USO

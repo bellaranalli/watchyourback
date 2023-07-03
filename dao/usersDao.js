@@ -24,6 +24,14 @@ class Users {
     static deleteUser(id) {
         return userModel.deleteOne({_id: id})
     }
+
+   /* static getUserByEmail(email) {
+        return userModel.findOne({email: email})
+    }
+
+    static updatePassword(id, data) {
+        return userModel.updateOne({_id: id}, {password: data})
+    }*/
 }
 
 export default Users
