@@ -39,7 +39,7 @@ static async addProductToCart(req, res) {
 
     const product = await Products.getProductById(pid); // Producto por id
 
-    // Verificar el rol del usuario actual
+    /*/ Verificar el rol del usuario actual
     const validRoles = ["admin", "premium", "user"];
     if (!validRoles.includes(currentUser.role)) {
       return res.status(403).json({ message: "Invalid user role." });
@@ -54,7 +54,7 @@ static async addProductToCart(req, res) {
       return res
         .status(403)
         .json({ message: "Premium users cannot add their own products to the cart."});
-    }
+    }*/
 
     const productIndex = cart.products.findIndex(
       (p) => p.product._id.toString() === pid
