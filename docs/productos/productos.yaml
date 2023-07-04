@@ -63,10 +63,27 @@ paths:
               schema:
                 $ref: '#/components/schemas/Products'
         404:
+          description: Productos no encontrado
+        500:
+          description: Error interno del servidor
+    delete:
+      summary: Elimina un producto por su ID
+      tags:
+        - Products
+      parameters:
+        - in: path
+          name: id
+          required: true
+          description: ID del producto
+          schema:
+            type: string
+      responses:
+        200:
+          description: Producto eliminado
+        404:
           description: Producto no encontrado
         500:
           description: Error interno del servidor
-
 components: 
   schemas:
     Products:
@@ -110,7 +127,7 @@ components:
         stock: 10
         owner: admin
 
-requestBodies:
+  requestBodies:
     updateProducts:
       type: object
       properties:
@@ -119,8 +136,28 @@ requestBodies:
           description: Nombre del Producto
         price:
           type: number
-          description: Precio del usuario
+          description: Precio del Producto
+        category: 
+          type: string
+          description: Categoria del Producto
+        code: 
+          type: number
+          description: Codigo del Producto
+        description: 
+          type: string
+          description: Descripcion del Producto 
+        thumbnail: 
+          type: string
+          description: Imagen del Producto
+        stock: 
+          type: number
+          description: Stock del Producto  
       example:
-        name: "Pantalon"
-        price: 100
+        name: "Piloto"
+        price: 300
+        category: "Indumentaria"
+        code: 22536
+        description: "Tela impermeable"
+        thumbnail: "una imagen"
+        stock: 50
 
