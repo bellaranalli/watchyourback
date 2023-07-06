@@ -39,7 +39,7 @@ static async addProductToCart(req, res) {
 
     const product = await Products.getProductById(pid); // Producto por id
 
-    /*/ Verificar el rol del usuario actual
+    // Verificar el rol del usuario actual
     const validRoles = ["admin", "premium", "user"];
     if (!validRoles.includes(currentUser.role)) {
       return res.status(403).json({ message: "Invalid user role." });
@@ -53,17 +53,22 @@ static async addProductToCart(req, res) {
     ) {
       return res
         .status(403)
-        .json({ message: "Premium users cannot add their own products to the cart."});
-    }*/
-
-    const productIndex = cart.products.findIndex(
-      (p) => p.product._id.toString() === pid
-    );
-    if (productIndex >= 0) {
-      cart.products[productIndex].quantity += 1;
-    } else {
-      cart.products.push({ product: pid });
+        .json({ message: "Premium users cannot add their own products to the cart." });
     }
+
+    if (cart.products && cart.products.length > 0) {
+      const productIndex = cart.products.findIndex(
+        (p) => p.product && p.product._id && p.product._id.toString() === pid
+      );
+      if (productIndex >= 0) {
+        cart.products[productIndex].quantity += 1;
+      } else {
+        cart.products.push({ product: pid });
+      }
+    } else {
+      cart.products = [{ product: pid }];
+    }
+
     await cart.save();
     return res.status(200).json(cart);
   } catch (error) {
@@ -81,7 +86,7 @@ static async addProductToCart(req, res) {
         return res.status(404).json({ message: "CART NOT FOUND" });
       }
       const productIndex = cart.products.findIndex(
-        (p) => p.product._id.toString() === pid
+        (p) => p.product && p.product._id && p.product._id.toString() === pid
       );
       if (productIndex >= 0) {
         cart.products[productIndex].quantity -= 1;
