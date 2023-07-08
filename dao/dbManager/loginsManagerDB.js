@@ -1,21 +1,24 @@
 import jwt from 'jsonwebtoken';
-import userModel from '../../dao/models/userModel.js';
-import cartModel from '../../dao/models/cartModel.js';
+//import userModel from '../../dao/models/userModel.js';
+//import cartModel from '../../dao/models/cartModel.js';
 import Utils from '../../utils/index.js';
 import bcrypt from 'bcrypt';
+import Carts from "../cartsDao.js";
+import Users from '../usersDao.js';
 
 class LoginsManager {
   static async login(req, res) {
     const { email, password } = req.body;
 
     try {
-      const user = await userModel.findOne({ email });
+      const user = await Users.getUserLog({ email });
 
       if (!user || !(await this.validatePassword(password, user))) {
         return res.status(401).json({ error: 'Email o contraseña inválidos' });
       }
 
       const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
+      
 
       // Actualizar el campo "status" del usuario a "active"
       user.status = 'active';
@@ -32,16 +35,17 @@ class LoginsManager {
     } catch (error) {
       res.status(500).json({ error: 'Error al iniciar sesión' });
     }
+  
   }
 
   static async register(req, res) {
     const { first_name, last_name, email, age, password } = req.body;
 
     try {
-      const newCart = await cartModel.create({});
+      const newCart = await Carts.createCart({});
       const cartId = newCart._id;
 
-      const newUser = await userModel.create({
+      const newUser = await Users.createUser({
         first_name,
         last_name,
         email,
@@ -65,7 +69,7 @@ class LoginsManager {
     try {
       const { email } = req.user; 
       
-      const user = await userModel.findOne({ email });
+      const user = await Users.getUserLog({ email });
   
       if (!user) {
         return res.status(404).json({ error: 'Usuario no encontrado' });
@@ -92,7 +96,7 @@ class LoginsManager {
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
       const userId = decoded.userId;
-      const user = await userModel.findOne({ _id: userId });
+      const user = await Users.getUserLog({ _id: userId });
 
       if (!user) {
         return res.status(404).json({ error: 'Usuario no encontrado' });
@@ -108,7 +112,7 @@ class LoginsManager {
     const { email, password } = req.body;
 
     try {
-      const user = await userModel.findOne({ email });
+      const user = await Users.getUserLog({ email });
 
       if (!user) {
         return res.status(404).json({ error: 'Usuario no encontrado' });
