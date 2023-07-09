@@ -1,7 +1,7 @@
 import { Router } from 'express'
 
 import productModel from '../../dao/models/productModel.js';
-import commonsUtils from '../../utils/common.js';
+import commonsUtils from '../../utils/commons.js';
 const routerVistaProducto = Router()
 
 //la ruta para llamar a todos los productos sería localhost:8080/productos/total
