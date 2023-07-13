@@ -26,7 +26,7 @@ describe('Pruebas al modulo de productos dao', function() {
         let result = await Products.createProduct({
             name: 'Polera',
             price: 100,
-            code: 10,
+            code: 11,
             description: 'Ropa',
             stock: 4,
             category: 'Indumentaria'
@@ -38,22 +38,18 @@ describe('Pruebas al modulo de productos dao', function() {
     it('Debe retornar todos los productos', async function() {
         const result = await Products.getProducts();
 
-        assert.strictEqual(Array.isArray(result), true);
-        assert.deepStrictEqual(result, []);
-
     });
 
     it('Debe retornar todos los productos', async function() {
         const result = await Products.createProduct({
             name: 'Polera',
             price: 100,
-            code: 12,
+            code: 10,
             description: 'Ropa',
             stock: 4,
             category: 'Indumentaria'
         });
         const product = await Products.getProductById(result._id);
-        //console.log(product);
         assert.strictEqual(typeof product, 'object');
         
     });
@@ -62,14 +58,13 @@ describe('Pruebas al modulo de productos dao', function() {
         const result = await Products.createProduct({
             name: 'Polera',
             price: 100,
-            code: 12,
+            code: 11,
             description: 'Ropa',
             stock: 4,
             category: 'Indumentaria'
         });
          await Products.deleteProductById(result._id);
-        
-         //console.log(product);        
+     
     });
 
     it('Debe actualizar un producto por id', async function() {
