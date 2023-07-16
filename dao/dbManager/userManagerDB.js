@@ -4,7 +4,7 @@ import Utils from '../../utils/index.js'
 import Carts from "../cartsDao.js";
 import Users from '../usersDao.js';
 import { uploader } from '../../utils.js'
-import { storage } from '../../utils.js';
+//import { storage } from '../../utils.js';
 import multer from 'multer';
 
 
@@ -74,7 +74,6 @@ class UserManagerDB {
       await user.save();
     }
 
-  
     const token = Utils.tokenGenerator(user)
     res.cookie('token', token, {
       maxAge: 60 * 60 * 1000,
@@ -117,7 +116,7 @@ class UserManagerDB {
   
     res.status(200).json({ message: 'Rol de usuario actualizado exitosamente', newRole: 'premium' });
   }
-  
+
   static async uploadImage(req, res) {
     try {
       const { params: { id } } = req;
@@ -129,38 +128,42 @@ class UserManagerDB {
       }
 
       // Configuración de multer para guardar en diferentes carpetas
-      const upload = multer({
-        storage: storage,
-        fileFilter: function (req, file, cb) {
-          let folder;
-          if (file.fieldname === 'profileImage') {
-            folder = 'profiles';
-          } else if (file.fieldname === 'productImage') {
-            folder = 'products';
-          } else if (file.fieldname === 'document') {
-            folder = 'documents';
-          } else {
-            return cb(new Error('Tipo de archivo no válido'));
-          }
-
-          const uploadPath = `public/imgs/${folder}`;
-          cb(null, uploadPath);
-        },
-        filename: function (req, file, cb) {
-          cb(null, file.originalname);
-        }
-      }).single('file');
+      const upload = multer({ storage: uploader.storage }).fields([
+        { name: 'profileImage', maxCount: 1 },
+        { name: 'productImage', maxCount: 1 },
+        { name: 'document', maxCount: 1 }
+      ]);
 
       upload(req, res, async (err) => {
         if (err) {
           return res.status(400).json({ message: 'Error al subir el archivo' });
         }
 
-        // Actualizar el status del usuario para indicar que se ha subido un documento
-        user.status = 'documentUploaded';
-        await user.save();
+        // Obtener los archivos subidos
+        const profileImage = req.files['profileImage'] ? req.files['profileImage'][0] : null;
+        const productImage = req.files['productImage'] ? req.files['productImage'][0] : null;
+        const document = req.files['document'] ? req.files['document'][0] : null;
 
-        res.status(200).json({ message: 'Documento subido exitosamente' });
+
+        //FUNCIONA PERO OMITO EL STATUS PORQUE LO UTILIZO PARA VER SI EL USUARIO ESTA ACTIVO O INACTIVO
+        /* Verificar qué tipo de archivo se subió y actualizar el status del usuario
+        if (profileImage) {
+          user.status = 'profileImageUploaded';
+           Aquí puedes realizar alguna acción específica para el perfil de imagen
+        } else if (productImage) {
+          user.status = 'productImageUploaded';
+           Aquí puedes realizar alguna acción específica para la imagen del producto
+        } else if (document) {
+          user.status = 'documentUploaded';
+           Aquí puedes realizar alguna acción específica para el documento
+        } else {
+          Si no se subió ningún archivo válido
+          return res.status(400).json({ message: 'No se subió ningún archivo válido' });
+        }*/
+
+        //await user.save();
+
+        res.status(200).json({ message: 'Archivo subido exitosamente' });
       });
     } catch (error) {
       console.error(error);
