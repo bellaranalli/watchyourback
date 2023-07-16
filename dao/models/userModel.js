@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema({
   first_name: String,
@@ -13,6 +13,11 @@ const userSchema = new mongoose.Schema({
     default: 'user',
   },
   status: { type: String, default: 'inactive', enum: ['active', 'inactive'] },
-}, { timestamps: true })
+  documents: [{
+    name: String,
+    reference: String,
+  }],
+  last_connection: Date,
+}, { timestamps: true });
 
-export default mongoose.model('User', userSchema)
+export default mongoose.model('User', userSchema);

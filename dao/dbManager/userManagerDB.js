@@ -14,6 +14,7 @@ class UserManagerDB {
       password: Utils.createHash(body.password),
       cart: cart._id, 
       status: 'inactive',
+      last_connection: new Date(), // Agregar la propiedad "last_connection" con la fecha y hora actual
     };
     const result = await Users.createUser(user);
     res.status(201).json(result);
@@ -60,6 +61,7 @@ class UserManagerDB {
     }
     // si logueo el usuario pasa a estar activo
     user.status = 'active';
+    user.last_connection = new Date(); // Actualizar la propiedad "last_connection" con la fecha y hora actual
     await user.save();
 
     // Si el usuario es adminCoder@coder.com se guardia al loguear como "admin"
@@ -80,34 +82,35 @@ class UserManagerDB {
     const {body: {email}} = req
     const user = await Users.getUserLog({email})
     user.status = 'inactive'; // si deslogueo el usuario pasa a estar inactivo
+    user.last_connection = new Date(); // Actualizar la propiedad "last_connection" con la fecha y hora actual
     await user.save();
     res.clearCookie('token');
     res.status(200).json({success: true});
-}
-
-static async changeUserRole(req, res) {
-  const { params: { id } } = req;
-  const user = await Users.getUserById(id);
-
-  if (!user) {
-    return res.status(404).json({ message: 'Usuario no encontrado' });
   }
 
-  let newRole = '';
-  if (user.role === 'user') {
-    newRole = 'premium';
-  } else if (user.role === 'premium') {
-    newRole = 'user';
-  } else {
-    return res.status(400).json({ message: 'Rol de usuario inválido' });
+  static async changeUserRole(req, res) {
+    const { params: { id } } = req;
+    const user = await Users.getUserById(id);
+
+    if (!user) {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+
+    let newRole = '';
+    if (user.role === 'user') {
+      newRole = 'premium';
+    } else if (user.role === 'premium') {
+      newRole = 'user';
+    } else {
+      return res.status(400).json({ message: 'Rol de usuario inválido' });
+    }
+
+    user.role = newRole;
+    await user.save();
+
+    res.status(200).json({ message: 'Rol de usuario actualizado exitosamente', newRole });
   }
 
-  user.role = newRole;
-  await user.save();
-
-  res.status(200).json({ message: 'Rol de usuario actualizado exitosamente', newRole });
 }
 
-}
-
-export default UserManagerDB
+export default UserManagerDB;

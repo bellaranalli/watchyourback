@@ -9,42 +9,44 @@ import Users from '../usersDao.js';
 class LoginsManager {
   static async login(req, res) {
     const { email, password } = req.body;
-
+  
     try {
       const user = await Users.getUserLog({ email });
-
+  
       if (!user || !(await this.validatePassword(password, user))) {
         return res.status(401).json({ error: 'Email o contraseña inválidos' });
       }
-
+  
       const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
-      
-
+  
       // Actualizar el campo "status" del usuario a "active"
       user.status = 'active';
-      await user.save();
-
+  
+      // Actualizar el campo "last_connection" del usuario con la fecha y hora actual
+      user.last_connection = new Date();
+  
+      await user.save(); // Guardar los cambios en la base de datos
+  
       // Si el usuario es adminCoder@coder.com
       if (user.email === 'adminCoder@coder.com') {
         user.role = 'admin';
-        await user.save();
+        await user.save(); // Guardar los cambios en la base de datos
       }
-
+  
       res.json({ token });
       res.redirect('/profile');
     } catch (error) {
       res.status(500).json({ error: 'Error al iniciar sesión' });
     }
-  
   }
 
   static async register(req, res) {
     const { first_name, last_name, email, age, password } = req.body;
-
+  
     try {
       const newCart = await Carts.createCart({});
       const cartId = newCart._id;
-
+  
       const newUser = await Users.createUser({
         first_name,
         last_name,
@@ -52,14 +54,15 @@ class LoginsManager {
         age,
         password: this.createHash(password),
         cart: cartId,
-        status: 'inactive', // Nuevo campo agregado al modelo
+        status: 'inactive',
+        last_connection: new Date(),
       });
-
+  
       newCart.user = newUser._id;
       await newCart.save();
-
+  
       res.json({ message: 'Usuario registrado exitosamente' });
-      res.redirect('/login'); // Mover la redirección aquí
+      res.redirect('/login');
     } catch (error) {
       res.status(500).json({ error: 'Error al registrar al usuario' });
     }
@@ -67,8 +70,8 @@ class LoginsManager {
 
   static async logout(req, res) {
     try {
-      const { email } = req.user; 
-      
+      const { email } = req.user;
+  
       const user = await Users.getUserLog({ email });
   
       if (!user) {
@@ -77,8 +80,12 @@ class LoginsManager {
   
       // Actualizar el campo "status" del usuario a "inactive"
       user.status = 'inactive';
-      await user.save();
-      
+  
+      // Actualizar el campo "last_connection" del usuario con la fecha y hora actual
+      user.last_connection = new Date();
+  
+      await user.save(); // Guardar los cambios en la base de datos
+  
       res.redirect('/login');
       res.json({ message: 'Sesión cerrada exitosamente' });
     } catch (error) {

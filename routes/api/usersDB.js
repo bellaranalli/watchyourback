@@ -11,5 +11,5 @@ routerUsers
 .put('/:id',Utils.authJWTMiddleware(['admin','user']), UserManagerDB.updateById)
 .delete('/:id',Utils.authJWTMiddleware(['admin','user']), UserManagerDB.deleteById)
 .get('/premium/:id',Utils.authJWTMiddleware(['admin']), UserManagerDB.changeUserRole);
-
+//.post('/:id/documents',Utils.authJWTMiddleware(['admin','user','premium']), UserManagerDB.????);
 export default routerUsers
