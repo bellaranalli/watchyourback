@@ -95,26 +95,29 @@ class UserManagerDB {
   static async changeUserRole(req, res) {
     const { params: { id } } = req;
     const user = await Users.getUserById(id);
-
+  
     if (!user) {
       return res.status(404).json({ message: 'Usuario no encontrado' });
     }
-
-    let newRole = '';
-    if (user.role === 'user') {
-      newRole = 'premium';
-    } else if (user.role === 'premium') {
-      newRole = 'user';
-    } else {
-      return res.status(400).json({ message: 'Rol de usuario inválido' });
+  
+    if (user.role === 'premium') {
+      return res.status(200).json({ message: 'El usuario ya cuenta con rol premium' });
     }
-
-    user.role = newRole;
+  
+    if (
+      !user.documents.identification ||
+      !user.documents.proofOfAddress ||
+      !user.documents.accountStatement
+    ) {
+      return res.status(400).json({ message: 'El usuario no ha terminado de procesar su documentación' });
+    }
+  
+    user.role = 'premium';
     await user.save();
-
-    res.status(200).json({ message: 'Rol de usuario actualizado exitosamente', newRole });
+  
+    res.status(200).json({ message: 'Rol de usuario actualizado exitosamente', newRole: 'premium' });
   }
-
+  
   static async uploadImage(req, res) {
     try {
       const { params: { id } } = req;
