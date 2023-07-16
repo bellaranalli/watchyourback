@@ -4,6 +4,9 @@ import Utils from '../../utils/index.js'
 import Carts from "../cartsDao.js";
 import Users from '../usersDao.js';
 import { uploader } from '../../utils.js'
+import { storage } from '../../utils.js';
+import multer from 'multer';
+
 
 class UserManagerDB {
 
@@ -115,59 +118,52 @@ class UserManagerDB {
   static async uploadImage(req, res) {
     try {
       const { params: { id } } = req;
+
+      // Verificar si el usuario existe
       const user = await Users.getUserById(id);
       if (!user) {
         return res.status(404).json({ message: 'Usuario no encontrado' });
       }
 
-      // Verificar si los documentos requeridos ya han sido cargados
-      const requiredDocuments = ['Identificación', 'Comprobante de domicilio', 'Comprobante de estado de cuenta'];
-      const hasAllDocuments = requiredDocuments.every(doc => user.documents.includes(doc));
-      if (!hasAllDocuments) {
-        return res.status(400).json({ message: 'Debe cargar todos los documentos requeridos' });
-      }
+      // Configuración de multer para guardar en diferentes carpetas
+      const upload = multer({
+        storage: storage,
+        fileFilter: function (req, file, cb) {
+          let folder;
+          if (file.fieldname === 'profileImage') {
+            folder = 'profiles';
+          } else if (file.fieldname === 'productImage') {
+            folder = 'products';
+          } else if (file.fieldname === 'document') {
+            folder = 'documents';
+          } else {
+            return cb(new Error('Tipo de archivo no válido'));
+          }
 
-      // Utilizar el middleware de multer para recibir los archivos
-      const upload = uploader.fields([
-        { name: 'profileImage', maxCount: 1 },
-        { name: 'productImage', maxCount: 5 },
-        { name: 'document', maxCount: 5 }
-      ]);
+          const uploadPath = `public/imgs/${folder}`;
+          cb(null, uploadPath);
+        },
+        filename: function (req, file, cb) {
+          cb(null, file.originalname);
+        }
+      }).single('file');
 
-      upload(req, res, async function (err) {
+      upload(req, res, async (err) => {
         if (err) {
-          return res.status(400).json({ message: 'Error al subir los archivos' });
+          return res.status(400).json({ message: 'Error al subir el archivo' });
         }
 
-        // Obtener los archivos subidos
-        const { profileImage, productImage, document } = req.files;
-
-        // Actualizar el usuario para reflejar que se han cargado los documentos
-        user.status = 'premium';
-
-        // Guardar las rutas de los archivos en el usuario
-        if (profileImage) {
-          user.profileImage = profileImage[0].path;
-        }
-
-        if (productImage) {
-          user.productImage = productImage[0].path;
-        }
-
-        if (document) {
-          user.documents = document.map(doc => doc.path);
-        }
-
+        // Actualizar el status del usuario para indicar que se ha subido un documento
+        user.status = 'documentUploaded';
         await user.save();
 
-        res.status(200).json({ message: 'Documentos cargados exitosamente' });
+        res.status(200).json({ message: 'Documento subido exitosamente' });
       });
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Error interno del servidor' });
     }
   }
-
 }
 
 export default UserManagerDB;
