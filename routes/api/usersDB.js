@@ -10,6 +10,6 @@ routerUsers
 .get('/:id',Utils.authJWTMiddleware(['admin', 'user']), UserManagerDB.getById)
 .put('/:id',Utils.authJWTMiddleware(['admin','user']), UserManagerDB.updateById)
 .delete('/:id',Utils.authJWTMiddleware(['admin','user']), UserManagerDB.deleteById)
-.get('/premium/:id',Utils.authJWTMiddleware(['admin']), UserManagerDB.changeUserRole);
-//.post('/:id/documents',Utils.authJWTMiddleware(['admin','user','premium']), UserManagerDB.????);
+.get('/premium/:id',Utils.authJWTMiddleware(['admin']), UserManagerDB.changeUserRole)
+.post('/:id/documents',Utils.authJWTMiddleware(['admin','user','premium']), UserManagerDB.uploadImage)
 export default routerUsers

@@ -32,6 +32,7 @@ class Users {
     static updatePassword(id, data) {
         return userModel.updateOne({_id: id}, {password: data})
     }*/
+
 }
 
 export default Users

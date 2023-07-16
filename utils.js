@@ -11,11 +11,23 @@ export default __dirname;
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, './public/imgs')
+    let folder;
+    if (file.fieldname === 'profileImage') {
+      folder = 'profiles';
+    } else if (file.fieldname === 'productImage') {
+      folder = 'products';
+    } else if (file.fieldname === 'document') {
+      folder = 'documents';
+    } else {
+      return cb(new Error('Tipo de archivo no válido'));
+    }
+
+    const uploadPath = join(__dirname, 'public/imgs', folder);
+    cb(null, uploadPath);
   },
   filename: function (req, file, cb) {
-    cb(null, file.originalname)
+    cb(null, file.originalname);
   }
-})
+});
 
-export const uploader = multer({ storage })
+export const uploader = multer({ storage });

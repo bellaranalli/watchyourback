@@ -3,6 +3,7 @@ import cartModel from '../models/cartModel.js';
 import Utils from '../../utils/index.js'
 import Carts from "../cartsDao.js";
 import Users from '../usersDao.js';
+import { uploader } from '../../utils.js'
 
 class UserManagerDB {
 
@@ -109,6 +110,62 @@ class UserManagerDB {
     await user.save();
 
     res.status(200).json({ message: 'Rol de usuario actualizado exitosamente', newRole });
+  }
+
+  static async uploadImage(req, res) {
+    try {
+      const { params: { id } } = req;
+      const user = await Users.getUserById(id);
+      if (!user) {
+        return res.status(404).json({ message: 'Usuario no encontrado' });
+      }
+
+      // Verificar si los documentos requeridos ya han sido cargados
+      const requiredDocuments = ['Identificación', 'Comprobante de domicilio', 'Comprobante de estado de cuenta'];
+      const hasAllDocuments = requiredDocuments.every(doc => user.documents.includes(doc));
+      if (!hasAllDocuments) {
+        return res.status(400).json({ message: 'Debe cargar todos los documentos requeridos' });
+      }
+
+      // Utilizar el middleware de multer para recibir los archivos
+      const upload = uploader.fields([
+        { name: 'profileImage', maxCount: 1 },
+        { name: 'productImage', maxCount: 5 },
+        { name: 'document', maxCount: 5 }
+      ]);
+
+      upload(req, res, async function (err) {
+        if (err) {
+          return res.status(400).json({ message: 'Error al subir los archivos' });
+        }
+
+        // Obtener los archivos subidos
+        const { profileImage, productImage, document } = req.files;
+
+        // Actualizar el usuario para reflejar que se han cargado los documentos
+        user.status = 'premium';
+
+        // Guardar las rutas de los archivos en el usuario
+        if (profileImage) {
+          user.profileImage = profileImage[0].path;
+        }
+
+        if (productImage) {
+          user.productImage = productImage[0].path;
+        }
+
+        if (document) {
+          user.documents = document.map(doc => doc.path);
+        }
+
+        await user.save();
+
+        res.status(200).json({ message: 'Documentos cargados exitosamente' });
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Error interno del servidor' });
+    }
   }
 
 }
