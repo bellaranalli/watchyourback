@@ -16,18 +16,30 @@ class UserManagerDB {
     const user = {
       ...body,
       password: Utils.createHash(body.password),
-      cart: cart._id, 
+      cart: cart._id,
       status: 'inactive',
       last_connection: new Date(), // Agregar la propiedad "last_connection" con la fecha y hora actual
     };
     const result = await Users.createUser(user);
     res.status(201).json(result);
   }
-  
+
 
   static async get(req, res) {
     const result = await Users.getUsers()
-    res.status(200).json(result)
+   res.status(200).json(result)
+
+  }
+
+  static async getData(req, res) {
+    const result = await Users.getUsers()
+    const filteredData = result.map(user => ({
+      first_name: user.first_name,
+      last_name: user.last_name,
+      email: user.email,
+      role: user.role
+    }));
+    res.status(200).json(filteredData);
   }
 
   static async getById(req, res) {
@@ -43,7 +55,7 @@ class UserManagerDB {
     const id = req.params.id
     const data = req.body
     await Users.updateUserById(id, data)
-    res.status(200).json({message: 'Updated'})
+    res.status(200).json({ message: 'Updated' })
   }
 
   static async deleteById(req, res) {
@@ -52,16 +64,16 @@ class UserManagerDB {
     res.status(204).end()
   }
 
-  static async login(req, res){
-    const {body: {email, password}} = req
-    const user = await Users.getUserLog({email})
+  static async login(req, res) {
+    const { body: { email, password } } = req
+    const user = await Users.getUserLog({ email })
 
-    if(!user){
-      return res.status(401).json({ massage: ' Usuario o Contraseña Incorrecto'})
+    if (!user) {
+      return res.status(401).json({ massage: ' Usuario o Contraseña Incorrecto' })
     }
 
-    if(!Utils.validatePassword(password, user)){
-      return res.status(401).json({ massage: ' Usuario o Contraseña Incorrecto'})
+    if (!Utils.validatePassword(password, user)) {
+      return res.status(401).json({ massage: ' Usuario o Contraseña Incorrecto' })
     }
     // si logueo el usuario pasa a estar activo
     user.status = 'active';
@@ -78,31 +90,31 @@ class UserManagerDB {
     res.cookie('token', token, {
       maxAge: 60 * 60 * 1000,
       httpOnly: true
-    }).status(200).json({success: true, access_token: token})
-  } 
+    }).status(200).json({ success: true, access_token: token })
+  }
 
   static async logout(req, res) {
-    const {body: {email}} = req
-    const user = await Users.getUserLog({email})
+    const { body: { email } } = req
+    const user = await Users.getUserLog({ email })
     user.status = 'inactive'; // si deslogueo el usuario pasa a estar inactivo
     user.last_connection = new Date(); // Actualizar la propiedad "last_connection" con la fecha y hora actual
     await user.save();
     res.clearCookie('token');
-    res.status(200).json({success: true});
+    res.status(200).json({ success: true });
   }
 
   static async changeUserRole(req, res) {
     const { params: { id } } = req;
     const user = await Users.getUserById(id);
-  
+
     if (!user) {
       return res.status(404).json({ message: 'Usuario no encontrado' });
     }
-  
+
     if (user.role === 'premium') {
       return res.status(200).json({ message: 'El usuario ya cuenta con rol premium' });
     }
-  
+
     if (
       !user.documents.identification ||
       !user.documents.proofOfAddress ||
@@ -110,10 +122,10 @@ class UserManagerDB {
     ) {
       return res.status(400).json({ message: 'El usuario no ha terminado de procesar su documentación' });
     }
-  
+
     user.role = 'premium';
     await user.save();
-  
+
     res.status(200).json({ message: 'Rol de usuario actualizado exitosamente', newRole: 'premium' });
   }
 
@@ -170,6 +182,8 @@ class UserManagerDB {
       res.status(500).json({ message: 'Error interno del servidor' });
     }
   }
+
 }
+
 
 export default UserManagerDB;

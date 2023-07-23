@@ -19,7 +19,7 @@ serviceRouter.get('/services', async (req, res) => {
   `)
 })
 
-/*erviceRouter.get('/new-password', async (req, res) => {
+/*serviceRouter.get('/new-password', async (req, res) => {
   console.log('token', req.query.token)
   if (req.query.token) {
     res.send(`

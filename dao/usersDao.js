@@ -9,6 +9,10 @@ class Users {
         return userModel.find()
     }
 
+    static getUsersData() {
+        return userModel.map(firts_name, last_name, email, role)
+    }
+
     static getUserById(id) {
         return userModel.findById(id)
     }
