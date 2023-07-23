@@ -19,7 +19,7 @@ serviceRouter.get('/services', async (req, res) => {
   `)
 })
 
-serviceRouter.get('/new-password', async (req, res) => {
+/*erviceRouter.get('/new-password', async (req, res) => {
   console.log('token', req.query.token)
   if (req.query.token) {
     res.send(`
@@ -39,7 +39,7 @@ serviceRouter.get('/new-password', async (req, res) => {
   </div>
   `)
   }
-})
+})*/
 
 serviceRouter.get('/email', async (req, res) => {
   const attachments = [
@@ -56,7 +56,7 @@ serviceRouter.get('/email', async (req, res) => {
     <div>
       <h1>Hola. ¿Cómo estás?</h1>
       <p>Con este enlace podrás cambiar tu contraseña</p>
-      <a href="http://localhost:8080/new-password?token=${Date.now()}">Cambiar contraseña</a>
+      <a href="http://localhost:8080/reset-password?token=${Date.now()}">Cambiar contraseña</a>
       <p>Saludos.</p>
     </div>
     `,
