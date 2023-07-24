@@ -29,6 +29,10 @@ class Users {
         return userModel.deleteOne({_id: id})
     }
 
+    static deleteInactive(filter) {
+        return userModel.deleteMany(filter);
+      }
+
    /* static getUserByEmail(email) {
         return userModel.findOne({email: email})
     }

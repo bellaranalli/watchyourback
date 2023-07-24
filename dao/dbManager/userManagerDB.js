@@ -6,19 +6,20 @@ import Users from '../usersDao.js';
 import { uploader } from '../../utils.js'
 //import { storage } from '../../utils.js';
 import multer from 'multer';
+import emailService from '../../services/email.service.js';
 
 
 class UserManagerDB {
 
   static async create(req, res) {
     const { body } = req;
-    const cart = await Carts.createCart({ items: [] }); // creo carrito vacío con el registro de usuario
+    const cart = await Carts.createCart({ items: [] }); // Creo carrito vacío con el registro de usuario
     const user = {
       ...body,
       password: Utils.createHash(body.password),
       cart: cart._id,
       status: 'inactive',
-      last_connection: new Date(), // Agregar la propiedad "last_connection" con la fecha y hora actual
+      last_connection: new Date(), // Agrego la propiedad "last_connection" con la fecha y hora actual
     };
     const result = await Users.createUser(user);
     res.status(201).json(result);
@@ -77,10 +78,10 @@ class UserManagerDB {
     }
     // si logueo el usuario pasa a estar activo
     user.status = 'active';
-    user.last_connection = new Date(); // Actualizar la propiedad "last_connection" con la fecha y hora actual
+    user.last_connection = new Date(); // Actualizo la propiedad "last_connection" con la fecha y hora actual
     await user.save();
 
-    // Si el usuario es adminCoder@coder.com se guardia al loguear como "admin"
+    // Si el usuario al crearse es con mail adminCoder@coder.com se guarda al loguear como "admin"
     if (user.email === 'adminCoder@coder.com') {
       user.role = 'admin';
       await user.save();
@@ -96,8 +97,8 @@ class UserManagerDB {
   static async logout(req, res) {
     const { body: { email } } = req
     const user = await Users.getUserLog({ email })
-    user.status = 'inactive'; // si deslogueo el usuario pasa a estar inactivo
-    user.last_connection = new Date(); // Actualizar la propiedad "last_connection" con la fecha y hora actual
+    user.status = 'inactive'; // Si deslogueo el usuario pasa a estar inactivo
+    user.last_connection = new Date(); // Actualizo la propiedad "last_connection" con la fecha y hora actual
     await user.save();
     res.clearCookie('token');
     res.status(200).json({ success: true });
@@ -133,7 +134,7 @@ class UserManagerDB {
     try {
       const { params: { id } } = req;
 
-      // Verificar si el usuario existe
+      // Verifico si el usuario existe
       const user = await Users.getUserById(id);
       if (!user) {
         return res.status(404).json({ message: 'Usuario no encontrado' });
@@ -180,6 +181,42 @@ class UserManagerDB {
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: 'Error interno del servidor' });
+    }
+  }
+
+  static async deleteInactiveUsers() {
+    try {
+      const twoDaysAgo = new Date();
+      twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
+      const filter = { status: 'inactive', last_connection: { $lt: twoDaysAgo } };
+  
+      // Esperamos a que se resuelva la promesa y obtenemos los usuarios eliminados
+      const deletedUsers = await Users.deleteInactive(filter).lean();
+  
+      const emailPromises = deletedUsers.map(async (user) => {
+        const userEmail = user.email;
+        const emailSubject = 'Eliminación de cuenta por inactividad';
+        const emailContent = `
+          <p>Estimado usuario,</p>
+          <p>Su cuenta ha sido eliminada debido a inactividad. Si desea volver a utilizar nuestros servicios, puede crear una nueva cuenta.</p>
+          <p>Gracias por su comprensión.</p>
+        `;
+  
+        try {
+          await emailService.sendEmail(userEmail, emailSubject, emailContent);
+          console.log(`Correo enviado a ${userEmail}: Su cuenta ha sido eliminada por inactividad.`);
+        } catch (error) {
+          console.error(`Error al enviar el correo a ${userEmail}:`, error);
+        }
+      });
+  
+      // Esperamos a que se resuelvan todas las promesas de envío de correo
+      await Promise.all(emailPromises);
+  
+      return deletedUsers.length;
+    } catch (error) {
+      console.error('Error al eliminar usuarios inactivos:', error);
+      return 0;
     }
   }
 
