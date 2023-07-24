@@ -10,7 +10,7 @@ const router = Router()
 
 router.use('/carrito', routerVistaCartID) //http://localhost:8080/carrito/:id
 router.use('/chat', routerVistaMensaje) //http://localhost:8080/chat
-router.use('/productos', routerVistaProducto) //http://localhost:8080/productos
+router.use('/productos', routerVistaProducto) //http://localhost:8080/productos/total
 router.use('/', routerGH)
 router.use('/', routerLogV)
 
