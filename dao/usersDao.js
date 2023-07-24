@@ -22,24 +22,28 @@ class Users {
     }
 
     static updateUserById(id, data) {
-        return userModel.updateOne({_id: id}, {$set: data})
+        return userModel.updateOne({ _id: id }, { $set: data })
     }
 
     static deleteUser(id) {
-        return userModel.deleteOne({_id: id})
+        return userModel.deleteOne({ _id: id })
     }
 
     static deleteInactive(filter) {
         return userModel.deleteMany(filter);
-      }
-
-   /* static getUserByEmail(email) {
-        return userModel.findOne({email: email})
     }
 
-    static updatePassword(id, data) {
-        return userModel.updateOne({_id: id}, {password: data})
-    }*/
+    static lastConnection(last_connection) {
+        return userModel.find(last_connection)
+    }
+
+    /* static getUserByEmail(email) {
+         return userModel.findOne({email: email})
+     }
+ 
+     static updatePassword(id, data) {
+         return userModel.updateOne({_id: id}, {password: data})
+     }*/
 
 }
 

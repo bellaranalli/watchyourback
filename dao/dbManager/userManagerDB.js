@@ -188,12 +188,14 @@ class UserManagerDB {
     try {
       const twoDaysAgo = new Date();
       twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
-      const filter = { status: 'inactive', last_connection: { $lt: twoDaysAgo } };
+      const filter = { last_connection: { $lt: twoDaysAgo } };
   
-      // Esperamos a que se resuelva la promesa y obtenemos los usuarios eliminados
-      const deletedUsers = await Users.deleteInactive(filter).lean();
+      // Obtén la lista de usuarios inactivos
+      const inactiveUsers = await Users.lastConnection(filter).lean();
+      console.log(inactiveUsers)
   
-      const emailPromises = deletedUsers.map(async (user) => {
+      // Envía un correo a cada usuario inactivo y luego elimínalos de la base de datos
+      const emailAndDeletePromises = inactiveUsers.map(async (user) => {
         const userEmail = user.email;
         const emailSubject = 'Eliminación de cuenta por inactividad';
         const emailContent = `
@@ -205,22 +207,25 @@ class UserManagerDB {
         try {
           await emailService.sendEmail(userEmail, emailSubject, emailContent);
           console.log(`Correo enviado a ${userEmail}: Su cuenta ha sido eliminada por inactividad.`);
+          
+          // Ahora eliminamos al usuario de la base de datos después de enviar el correo.
+          await Users.deleteInactive(filter); 
         } catch (error) {
           console.error(`Error al enviar el correo a ${userEmail}:`, error);
         }
       });
   
-      // Esperamos a que se resuelvan todas las promesas de envío de correo
-      await Promise.all(emailPromises);
+      // Esperamos a que se resuelvan todas las promesas de envío de correo y eliminación
+      await Promise.all(emailAndDeletePromises);
   
-      return deletedUsers.length;
+      const deletedUsersCount = emailAndDeletePromises.length;
+      console.log(`Se eliminaron ${deletedUsersCount} usuarios inactivos.`);
+      return deletedUsersCount;
     } catch (error) {
       console.error('Error al eliminar usuarios inactivos:', error);
       return 0;
     }
   }
-
 }
-
 
 export default UserManagerDB;
