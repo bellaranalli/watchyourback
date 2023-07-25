@@ -76,7 +76,7 @@ class UserManagerDB {
     if (!Utils.validatePassword(password, user)) {
       return res.status(401).json({ massage: ' Usuario o Contraseña Incorrecto' })
     }
-    // si logueo el usuario pasa a estar activo
+    // Si logueo el usuario pasa a estar activo
     user.status = 'active';
     user.last_connection = new Date(); // Actualizo la propiedad "last_connection" con la fecha y hora actual
     await user.save();
@@ -190,11 +190,11 @@ class UserManagerDB {
       twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
       const filter = { last_connection: { $lt: twoDaysAgo } };
   
-      // Obtén la lista de usuarios inactivos
+      // Obtengo la lista de usuarios inactivos
       const inactiveUsers = await Users.lastConnection(filter).lean();
       console.log(inactiveUsers)
   
-      // Envía un correo a cada usuario inactivo y luego elimínalos de la base de datos
+      // Envía un correo a cada usuario inactivo y luego los elimino de la base de datos
       const emailAndDeletePromises = inactiveUsers.map(async (user) => {
         const userEmail = user.email;
         const emailSubject = 'Eliminación de cuenta por inactividad';
@@ -208,14 +208,14 @@ class UserManagerDB {
           await emailService.sendEmail(userEmail, emailSubject, emailContent);
           console.log(`Correo enviado a ${userEmail}: Su cuenta ha sido eliminada por inactividad.`);
           
-          // Ahora eliminamos al usuario de la base de datos después de enviar el correo.
+          // Elimino al usuario de la base de datos después de enviar el correo.
           await Users.deleteInactive(filter); 
         } catch (error) {
           console.error(`Error al enviar el correo a ${userEmail}:`, error);
         }
       });
   
-      // Esperamos a que se resuelvan todas las promesas de envío de correo y eliminación
+      // Espero se resuelvan las promesas
       await Promise.all(emailAndDeletePromises);
   
       const deletedUsersCount = emailAndDeletePromises.length;
