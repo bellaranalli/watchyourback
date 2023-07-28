@@ -130,6 +130,30 @@ class UserManagerDB {
     res.status(200).json({ message: 'Rol de usuario actualizado exitosamente', newRole: 'premium' });
   }
 
+  static async managementRole(req, res) {
+    const { params: { id } } = req;
+    const user = await Users.getUserById(id);
+    console.log(user);
+    if (!user) {
+      return res.status(404).json({ message: 'Usuario no encontrado' });
+    }
+  
+    let newRole = '';
+    if (user.role === 'user') {
+      newRole = 'premium';
+    } else if (user.role === 'premium') {
+      newRole = 'user';
+    } else {
+      return res.status(400).json({ message: 'Rol de usuario inválido' });
+    }
+  
+    user.role = newRole;
+    await user.save();
+  
+    res.status(200).json({ message: 'Rol de usuario actualizado exitosamente', newRole });
+  }
+
+
   static async uploadImage(req, res) {
     try {
       const { params: { id } } = req;
