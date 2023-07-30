@@ -1,6 +1,9 @@
 import ProductsModel from '../models/productModel.js'
 import commonsUtils from '../../utils/commons.js'
 import Products from '../productsDao.js'
+import Users from '../usersDao.js';
+import emailService from '../../services/email.service.js';
+
 
 class ProductsManagerDB {
 
@@ -65,8 +68,8 @@ class ProductsManagerDB {
   static async deleteById(req, res) {
     const id = req.params.id;
   
-    /*/ Verificar si el usuario es admin
-    const isAdmin = req.user.role === 'admin';*/
+    // Verificar si el usuario es admin
+    const isAdmin = req.user.role === 'admin';
   
     // Obtener el owner actual del producto
     const product = await Products.getProductById(id);
@@ -79,7 +82,31 @@ class ProductsManagerDB {
       return res.status(403).json({ message: 'No tienes permiso para eliminar este producto' });
     }
   
+    // Verificar si el usuario es premium
+    let premiumUser = null;
+    if (isAdmin && product.owner !== 'admin') {
+      try {
+        premiumUser = await Users.getUserPremium({ email: product.owner, role: 'premium' }).exec();
+      } catch (error) {
+        console.error('Error al buscar el usuario premium:', error);
+      }
+    }
+  
     await Products.deleteProductById({ _id: id });
+  
+    // Envio mail al usuario premium
+    if (premiumUser) {
+      const subject = 'Producto eliminado';
+      const html = `<p>Hola!!,</p><p>Tu producto "${product.name}" ha sido eliminado por el administrador.</p>`;
+      
+      try {
+        await emailService.sendEmail(premiumUser.email, subject, html);
+        console.log('Correo electrónico enviado al usuario premium.');
+      } catch (error) {
+        console.error('Error al enviar el correo electrónico:', error);
+      }
+    }
+  
     res.status(204).end();
   }
   //FILTRO POR CATEGORIA

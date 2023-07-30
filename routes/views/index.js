@@ -16,6 +16,6 @@ router.use('/chat', routerVistaMensaje) //http://localhost:8080/chat
 router.use('/productos', routerVistaProducto) //http://localhost:8080/productos/total
 router.use('/', routerGH)
 router.use('/', routerLogV)
-router.use('/users', Utils.authJWTMiddleware(['admin']), routerViewUsers) //http://localhost:8080/users/management
+router.use('/', Utils.authJWTMiddleware(['admin']), routerViewUsers) //http://localhost:8080/users/management
 
 export default router
