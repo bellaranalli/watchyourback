@@ -52,7 +52,7 @@
       .then(function(raw) {raw.json()})
       .then(function(data){
         alert('Usuario Borrado')
-        window.location.href = `http://localhost:8080/users/management/${id}`
+        window.location.href = `http://localhost:8080/management/${id}`
         console.log(data)
       })
     })
@@ -67,7 +67,7 @@
       .then(function(raw) {raw.json()})
       .then(function(data){
         alert('Rol Cambiado')
-        window.location.href = `http://localhost:8080/users/management/${id}`
+        window.location.href = `http://localhost:8080/management/${id}`
         console.log(data)
       })
     })

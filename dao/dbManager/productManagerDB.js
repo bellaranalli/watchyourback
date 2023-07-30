@@ -97,7 +97,7 @@ class ProductsManagerDB {
     // Envio mail al usuario premium
     if (premiumUser) {
       const subject = 'Producto eliminado';
-      const html = `<p>Hola!!,</p><p>Tu producto "${product.name}" ha sido eliminado por el administrador.</p>`;
+      const html = `<p>Hola ${premiumUser.first_name}!!,</p><p>Tu producto "${product.name}" ha sido eliminado por el administrador.</p>`;
       
       try {
         await emailService.sendEmail(premiumUser.email, subject, html);
@@ -106,9 +106,10 @@ class ProductsManagerDB {
         console.error('Error al enviar el correo electrónico:', error);
       }
     }
-  
+
     res.status(204).end();
   }
+
   //FILTRO POR CATEGORIA
   static async filtroCategory(req, res) {
     const { params: { category } } = req;
