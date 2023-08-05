@@ -54,7 +54,7 @@ class Utils {
       if (!roles.includes(user.role)) {
         return next(new Exception('Forbidden', 403))
       }
-      if (user.role === 'usuario' && req.params.id && req.params.id !== user.id) {
+      if (user.role === 'user' && req.params.id && req.params.id !== user.id) {
         return (new Exception('Forbidden', 403))
       }
       req.user = user
