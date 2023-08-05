@@ -3,7 +3,7 @@ import twilioService from '../../services/twilio.service.js'
 import { Router } from 'express'
 import { uploader } from '../../utils.js'
 
-//process.env.NODE_TLS_REJECT_UNAUTHORIZED  //uso esta línea porque no me deja enviar el mail sino
+process.env.NODE_TLS_REJECT_UNAUTHORIZED  //uso esta línea porque no me deja enviar el mail sino
 
 const serviceRouter = Router()
 
