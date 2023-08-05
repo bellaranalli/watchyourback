@@ -33,7 +33,7 @@ export const initPassport = () =>{
 }
 export default initPassport
 
-/*passport.use(new GithubStrategy(githubOptions, async (accessToken, refreshToken, profile, done) => {
+passport.use(new GithubStrategy(githubOptions, async (accessToken, refreshToken, profile, done) => {
   try {
     console.log('profile', profile)
     let user = await userModel.findOne({ email: profile._json.email })
@@ -51,7 +51,7 @@ export default initPassport
   } catch (error) {
     return done(new Error('Error al obtener el usuario:' + error.message))
   }
-}))*/
+}))
 
 
 passport.serializeUser((user, done) => {
