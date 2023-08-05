@@ -1,4 +1,4 @@
-import { Router } from 'express'
+/*import { Router } from 'express'
 import passport from 'passport';
 
 const routerGH = Router()
@@ -8,4 +8,4 @@ routerGH.get('/github/callback', passport.authenticate('github', { failureRedire
     res.redirect('/profile');
   });
 
-export default routerGH  
+export default routerGH  */
