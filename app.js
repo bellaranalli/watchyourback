@@ -30,7 +30,7 @@ import swaggerUi from 'swagger-ui-express';
 import { config } from 'dotenv';
 config();
 
-const PORT = process.env.PORT_NODE 
+const PORT = process.env.PORT_NODE || 8080
 const ENV = process.env.NODE_ENV 
 const URL = process.env.NODE_URI  
 
