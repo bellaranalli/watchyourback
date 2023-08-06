@@ -56,7 +56,7 @@ app.use(express.static('public'))
 app.use(cookieParser())
 //app.use(addLogger)
 
-let httpServer = app.listen(PORT, () => {
+let httpServer = app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server running in http://localhost:${PORT}/ in ${ENV} environment.`)
 })
 
