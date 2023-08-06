@@ -7,4 +7,3 @@ const message = new mongoose.Schema({
 }, { timestamps: true })
 
 export default mongoose.model('Messages', message)
-
