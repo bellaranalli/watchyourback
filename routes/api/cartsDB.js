@@ -31,6 +31,8 @@ routerCarts
 //la ruta para eliminar un carrito de la db por id seria localhost:8080/mongoc/delete/:cid
 .delete('/delete/:cid',Utils.authJWTMiddleware(['admin']),CartsManagerDB.deleteCart)
 
+.get('/tickets',Utils.authJWTMiddleware(['admin']),CartsManagerDB.getTicket)
+
 export default routerCarts;
 
 

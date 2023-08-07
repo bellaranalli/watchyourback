@@ -26,6 +26,7 @@ router.use('/current', Utils.authJWTMiddleware(['admin', 'usuario']),(req, res) 
 router.use('/', routerGH)
 router.use('/', routerLog)
 router.use('/', purchaseRouter)
+
 router.use('/', serviceRouter)
 
 export default router

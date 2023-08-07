@@ -1,4 +1,5 @@
 import cartsModel from "./models/cartModel.js";
+import ticketModel from "./models/ticketModel.js";
 
 class Carts {
     static createCart(cart) {
@@ -18,6 +19,10 @@ class Carts {
     }
     static deleteCartById(id) {
         return cartsModel.deleteOne({_id: id})
+    }
+
+    static getTickets(){
+       return ticketModel.find()
     }
 }
 

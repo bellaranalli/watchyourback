@@ -119,6 +119,12 @@ static async addProductToCart(req, res) {
     }
 }
 
+static async getTicket(req, res) {
+  const result = await Carts.getTickets()
+  res.status(200).json(result)
+
+}
+
 }  
 
 export default CartsManagerDB

@@ -5,6 +5,7 @@ import cartModel from '../../dao/models/cartModel.js';
 import productModel from '../../dao/models/productModel.js';
 import ticketModel from '../../dao/models/ticketModel.js';
 import TicketService from '../../services/ticket.service.js';
+import Carts from '../../dao/cartsDao.js';
 
 const purchaseRouter = Router();
 
@@ -13,7 +14,7 @@ purchaseRouter.post('/:cid/purchase', async (req, res) => {
   const { cid } = req.params;
 
   try {
-    const cart = await cartModel.findById(cid).populate('products.product');
+    const cart = await Carts.getCartById(cid).populate('products.product');
     if (!cart) {
       return res.status(404).json({ error: 'Cart not found' });
     }
